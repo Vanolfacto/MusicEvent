@@ -51,6 +51,10 @@ ml-service/reports/*.json
 !ml-service/models/.gitkeep
 !ml-service/reports/.gitkeep
 
+# Istrenirani model MORA da ide na GitHub — bez njega ML servis na Renderu
+# nema šta da učita (nema koraka za retreniranje pri deploy-u)
+!ml-service/models/best_model.joblib
+
 # Prisma
 server/prisma/migrations/**/migration_lock.toml
 
