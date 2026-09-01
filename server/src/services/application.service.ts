@@ -69,6 +69,9 @@ export const applicationService = {
       include: { organizer: { include: { user: true } } },
     });
     if (!event) throw new AppError(404, 'Događaj nije dostupan za prijavu');
+    if (event.endDateTime < new Date()) {
+      throw new AppError(400, 'Događaj je već završen — prijave više nisu moguće');
+    }
     if (!artist.isAvailable) throw new AppError(400, 'Morate biti označeni kao dostupni');
 
     const existing = await prisma.application.findUnique({
@@ -107,6 +110,9 @@ export const applicationService = {
     const event = await requireEventOwnership(organizer.id, eventId);
     if (event.status !== 'PUBLISHED' && event.status !== 'DRAFT') {
       throw new AppError(400, 'Na ovaj događaj više nije moguće slati pozive');
+    }
+    if (event.endDateTime < new Date()) {
+      throw new AppError(400, 'Događaj je već završen — pozivi više nisu mogući');
     }
 
     const artist = await prisma.artistProfile.findFirst({

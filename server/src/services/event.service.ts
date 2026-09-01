@@ -44,7 +44,9 @@ export const eventService = {
     publicOnly?: boolean;
   }) {
     const where = {
-      ...(filters.publicOnly ? { status: 'PUBLISHED' as const } : {}),
+      ...(filters.publicOnly
+        ? { status: 'PUBLISHED' as const, endDateTime: { gt: new Date() } }
+        : {}),
       ...(filters.status ? { status: filters.status } : {}),
       ...(filters.city ? { city: { contains: filters.city, mode: 'insensitive' as const } } : {}),
       ...(filters.eventType ? { eventType: filters.eventType } : {}),

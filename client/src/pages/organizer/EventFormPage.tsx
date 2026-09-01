@@ -146,7 +146,7 @@ export default function EventFormPage() {
             <select {...register('status')} className="input" disabled={isTerminalStatus}>
               <option value="DRAFT">Nacrt</option>
               <option value="PUBLISHED">Objavljen</option>
-              {isTerminalStatus && <option value="CANCELLED">Otkazan</option>}
+              {isEdit && <option value="CANCELLED">Otkazan</option>}
               {isTerminalStatus && <option value="COMPLETED">Završen</option>}
             </select>
             {isTerminalStatus && (
