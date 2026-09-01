@@ -27,11 +27,14 @@ async function refreshAccessToken(): Promise<string> {
   return newToken;
 }
 
+const AUTH_ENDPOINTS = ['/auth/login', '/auth/register', '/auth/refresh'];
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+    const isAuthEndpoint = AUTH_ENDPOINTS.some((path) => original?.url?.includes(path));
+    if (error.response?.status === 401 && !original._retry && !isAuthEndpoint) {
       original._retry = true;
       try {
         if (!refreshPromise) {
