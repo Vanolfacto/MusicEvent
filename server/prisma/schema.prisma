@@ -1,0 +1,296 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  ORGANIZER
+  ARTIST
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  INACTIVE
+}
+
+enum ArtistType {
+  SOLO
+  BAND
+  DJ
+}
+
+enum EventType {
+  CONCERT
+  FESTIVAL
+  PRIVATE_PARTY
+  WEDDING
+  CORPORATE
+  CLUB_NIGHT
+  OTHER
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+}
+
+enum ApplicationType {
+  APPLY
+  INVITE
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+  CANCELLED
+}
+
+enum PerformanceStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String         @unique
+  passwordHash String
+  role         UserRole
+  status       UserStatus     @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  organizerProfile OrganizerProfile?
+  artistProfile    ArtistProfile?
+  notifications    Notification[]
+  refreshTokens    RefreshToken[]
+
+  @@index([role])
+  @@index([status])
+}
+
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  token     String    @unique
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model OrganizerProfile {
+  id               Int      @id @default(autoincrement())
+  userId           Int      @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationName String
+  description      String?
+  city             String
+  phone            String?
+  events           Event[]
+  reviews          Review[]
+}
+
+model ArtistProfile {
+  id                 Int           @id @default(autoincrement())
+  userId             Int           @unique
+  user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stageName          String
+  biography          String?
+  city               String
+  artistType         ArtistType
+  memberCount        Int           @default(1)
+  minimumFee         Decimal       @db.Decimal(10, 2)
+  maximumFee         Decimal       @db.Decimal(10, 2)
+  averageRating      Decimal       @default(0) @db.Decimal(3, 2)
+  totalPerformances  Int           @default(0)
+  yearsOfExperience  Int           @default(0)
+  spotifyUrl         String?
+  youtubeUrl         String?
+  instagramUrl       String?
+  isAvailable        Boolean       @default(true)
+  genres             ArtistGenre[]
+  applications       Application[]
+  performances       Performance[]
+  reviews            Review[]
+  recommendations    Recommendation[]
+
+  @@index([city])
+  @@index([artistType])
+  @@index([isAvailable])
+  @@index([averageRating])
+}
+
+model Genre {
+  id      Int           @id @default(autoincrement())
+  name    String        @unique
+  artists ArtistGenre[]
+  events  EventGenre[]
+}
+
+model ArtistGenre {
+  artistId Int
+  genreId  Int
+  artist   ArtistProfile @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  genre    Genre         @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([artistId, genreId])
+  @@index([genreId])
+}
+
+model Event {
+  id                  Int              @id @default(autoincrement())
+  organizerId         Int
+  organizer           OrganizerProfile @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+  title               String
+  description         String?
+  eventType           EventType
+  city                String
+  venue               String
+  address             String?
+  startDateTime       DateTime
+  endDateTime         DateTime
+  expectedAudience    Int
+  minimumBudget       Decimal          @db.Decimal(10, 2)
+  maximumBudget       Decimal          @db.Decimal(10, 2)
+  preferredArtistType ArtistType
+  status              EventStatus      @default(DRAFT)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  genres              EventGenre[]
+  applications        Application[]
+  performances        Performance[]
+  reviews             Review[]
+  recommendations     Recommendation[]
+
+  @@index([organizerId])
+  @@index([city])
+  @@index([status])
+  @@index([startDateTime])
+  @@index([eventType])
+}
+
+model EventGenre {
+  eventId Int
+  genreId Int
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([eventId, genreId])
+  @@index([genreId])
+}
+
+model Application {
+  id              Int               @id @default(autoincrement())
+  eventId         Int
+  artistId        Int
+  event           Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  artist          ArtistProfile     @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  applicationType ApplicationType
+  status          ApplicationStatus @default(PENDING)
+  message         String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@unique([eventId, artistId, applicationType])
+  @@index([eventId])
+  @@index([artistId])
+  @@index([status])
+}
+
+model Performance {
+  id            Int               @id @default(autoincrement())
+  eventId       Int
+  artistId      Int
+  event         Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  artist        ArtistProfile     @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  startDateTime DateTime
+  endDateTime   DateTime
+  agreedFee     Decimal           @db.Decimal(10, 2)
+  status        PerformanceStatus @default(SCHEDULED)
+
+  @@index([eventId])
+  @@index([artistId])
+  @@index([startDateTime])
+  @@index([status])
+}
+
+model Review {
+  id          Int              @id @default(autoincrement())
+  eventId     Int
+  organizerId Int
+  artistId    Int
+  event       Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  organizer   OrganizerProfile @relation(fields: [organizerId], references: [id], onDelete: Cascade)
+  artist      ArtistProfile    @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  rating      Int
+  comment     String?
+  createdAt   DateTime         @default(now())
+
+  @@unique([eventId, artistId])
+  @@index([artistId])
+  @@index([organizerId])
+  @@index([rating])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model Recommendation {
+  id           Int           @id @default(autoincrement())
+  eventId      Int
+  artistId     Int
+  event        Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  artist       ArtistProfile @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  score        Decimal       @db.Decimal(5, 4)
+  modelVersion String
+  explanation  String
+  createdAt    DateTime      @default(now())
+
+  @@unique([eventId, artistId, modelVersion])
+  @@index([eventId])
+  @@index([artistId])
+  @@index([score])
+}
+
+model ModelTrainingRun {
+  id           Int      @id @default(autoincrement())
+  modelVersion String   @unique
+  algorithm    String
+  trainingDate DateTime @default(now())
+  datasetSize  Int
+  accuracy     Decimal  @db.Decimal(6, 4)
+  precision    Decimal  @db.Decimal(6, 4)
+  recall       Decimal  @db.Decimal(6, 4)
+  f1Score      Decimal  @db.Decimal(6, 4)
+  rocAuc       Decimal? @db.Decimal(6, 4)
+  notes        String?
+
+  @@index([trainingDate])
+}

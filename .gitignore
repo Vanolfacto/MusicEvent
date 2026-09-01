@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.nyc_output/
+
+# ML artifacts (keep structure, ignore large/generated)
+ml-service/data/raw/*.csv
+ml-service/data/processed/*.csv
+ml-service/models/*.joblib
+ml-service/models/*.pkl
+ml-service/reports/*.png
+ml-service/reports/*.json
+!ml-service/data/raw/.gitkeep
+!ml-service/data/processed/.gitkeep
+!ml-service/models/.gitkeep
+!ml-service/reports/.gitkeep
+
+# Prisma
+server/prisma/migrations/**/migration_lock.toml
+
+# Docker
+.docker/
+
+# Misc
+*.pem
+.cache/

@@ -1,0 +1,18 @@
+{
+  "genre_match": 0.9,
+  "budget_match": 1.0,
+  "same_city": 1.0,
+  "artist_type_match": 1.0,
+  "average_rating": 4.7,
+  "total_performances": 30,
+  "years_of_experience": 10,
+  "expected_audience": 800,
+  "artist_fee_midpoint": 1500,
+  "artist_available": 1.0,
+  "past_success_similar_events": 0.8,
+  "budget_min": 1000,
+  "budget_max": 2500,
+  "event_type": "CONCERT",
+  "preferred_artist_type": "BAND",
+  "artist_type": "BAND"
+}
