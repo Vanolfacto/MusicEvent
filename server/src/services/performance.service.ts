@@ -2,6 +2,7 @@ import { prisma } from '../lib/prisma.js';
 import { AppError } from '../middleware/errorHandler.js';
 import type { PerformanceStatus, User } from '@prisma/client';
 import {
+  assertEventActive,
   requireArtistProfile,
   requireEventOwnership,
   requireOrganizerProfile,
@@ -56,6 +57,7 @@ export const performanceService = {
   ) {
     const organizer = await requireOrganizerProfile(user);
     const event = await requireEventOwnership(organizer.id, data.eventId);
+    assertEventActive(event, 'zakazivanje nastupa');
 
     const acceptedApplication = await prisma.application.findFirst({
       where: {
@@ -118,7 +120,7 @@ export const performanceService = {
     const organizer = await requireOrganizerProfile(user);
     const existing = await prisma.performance.findUnique({
       where: { id: performanceId },
-      include: { event: true, artist: true },
+      include: { event: true, artist: { include: { user: true } } },
     });
     if (!existing) throw new AppError(404, 'Nastup nije pronađen');
     await requireEventOwnership(organizer.id, existing.eventId);
@@ -149,11 +151,27 @@ export const performanceService = {
       }
     }
 
-    return prisma.performance.update({
+    const updated = await prisma.performance.update({
       where: { id: performanceId },
       data,
       include: performanceInclude,
     });
+
+    if (data.status && data.status !== existing.status) {
+      const statusLabels: Record<PerformanceStatus, string> = {
+        SCHEDULED: 'zakazan',
+        CONFIRMED: 'potvrđen',
+        COMPLETED: 'završen',
+        CANCELLED: 'otkazan',
+      };
+      await notificationService.create(
+        existing.artist.user.id,
+        'Status nastupa ažuriran',
+        `Vaš nastup na događaju "${existing.event.title}" je sada ${statusLabels[data.status]}.`,
+      );
+    }
+
+    return updated;
   },
 
   async remove(user: User, performanceId: number) {

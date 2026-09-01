@@ -2,6 +2,15 @@ import { prisma } from '../lib/prisma.js';
 import { AppError } from '../middleware/errorHandler.js';
 import type { User } from '@prisma/client';
 
+export function assertEventActive(event: { status: string; endDateTime: Date }, action: string) {
+  if (event.status === 'CANCELLED' || event.status === 'COMPLETED') {
+    throw new AppError(400, `Događaj je otkazan ili završen — ${action} više nije moguće`);
+  }
+  if (event.endDateTime < new Date()) {
+    throw new AppError(400, `Događaj je već završen — ${action} više nije moguće`);
+  }
+}
+
 export async function requireOrganizerProfile(user: User) {
   const profile = await prisma.organizerProfile.findUnique({
     where: { userId: user.id },

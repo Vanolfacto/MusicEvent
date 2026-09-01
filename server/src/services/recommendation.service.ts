@@ -1,7 +1,7 @@
 import { prisma } from '../lib/prisma.js';
 import { AppError } from '../middleware/errorHandler.js';
 import type { User } from '@prisma/client';
-import { requireEventOwnership, requireOrganizerProfile } from '../utils/access.js';
+import { assertEventActive, requireEventOwnership, requireOrganizerProfile } from '../utils/access.js';
 import { mlClientService } from './mlClient.service.js';
 import {
   buildMlArtistPayload,
@@ -182,6 +182,7 @@ export const recommendationService = {
     }
 
     await requireEventOwnership(organizer.id, eventId);
+    assertEventActive(event, 'generisanje preporuka');
 
     const artists = await prisma.artistProfile.findMany({
       where: {

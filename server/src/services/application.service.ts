@@ -2,6 +2,7 @@ import { prisma } from '../lib/prisma.js';
 import { AppError } from '../middleware/errorHandler.js';
 import type { ApplicationStatus, User } from '@prisma/client';
 import {
+  assertEventActive,
   requireArtistProfile,
   requireEventOwnership,
   requireOrganizerProfile,
@@ -69,9 +70,7 @@ export const applicationService = {
       include: { organizer: { include: { user: true } } },
     });
     if (!event) throw new AppError(404, 'Događaj nije dostupan za prijavu');
-    if (event.endDateTime < new Date()) {
-      throw new AppError(400, 'Događaj je već završen — prijave više nisu moguće');
-    }
+    assertEventActive(event, 'prijavljivanje');
     if (!artist.isAvailable) throw new AppError(400, 'Morate biti označeni kao dostupni');
 
     const existing = await prisma.application.findUnique({
@@ -111,9 +110,7 @@ export const applicationService = {
     if (event.status !== 'PUBLISHED' && event.status !== 'DRAFT') {
       throw new AppError(400, 'Na ovaj događaj više nije moguće slati pozive');
     }
-    if (event.endDateTime < new Date()) {
-      throw new AppError(400, 'Događaj je već završen — pozivi više nisu mogući');
-    }
+    assertEventActive(event, 'slanje poziva');
 
     const artist = await prisma.artistProfile.findFirst({
       where: { id: artistId, user: { status: 'ACTIVE' } },
@@ -188,6 +185,8 @@ export const applicationService = {
     }
 
     if (status === 'ACCEPTED') {
+      assertEventActive(application.event, 'prihvatanje prijave');
+
       const conflictingAccepted = await prisma.application.findFirst({
         where: {
           eventId: application.eventId,
@@ -229,7 +228,10 @@ export const applicationService = {
 
   async withdraw(user: User, applicationId: number) {
     const artist = await requireArtistProfile(user);
-    const application = await prisma.application.findUnique({ where: { id: applicationId } });
+    const application = await prisma.application.findUnique({
+      where: { id: applicationId },
+      include: { event: { include: { organizer: { include: { user: true } } } } },
+    });
     if (!application) throw new AppError(404, 'Prijava nije pronađena');
     if (application.artistId !== artist.id) throw new AppError(403, 'Nemate dozvolu');
     if (application.applicationType !== 'APPLY') {
@@ -239,11 +241,19 @@ export const applicationService = {
       throw new AppError(400, 'Prijava se ne može povući u trenutnom statusu');
     }
 
-    return prisma.application.update({
+    const updated = await prisma.application.update({
       where: { id: applicationId },
       data: { status: 'WITHDRAWN' },
       include: applicationInclude,
     });
+
+    await notificationService.create(
+      application.event.organizer.user.id,
+      'Prijava povučena',
+      `${artist.stageName} je povukao/la prijavu za događaj "${application.event.title}".`,
+    );
+
+    return updated;
   },
 
   async getById(user: User, applicationId: number) {
