@@ -20,9 +20,10 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 @router.post("/train", response_model=TrainResponse)
 async def train_model():
     scripts = [
-        BASE_DIR / "scripts" / "generate_synthetic_data.py",
+        BASE_DIR / "scripts" / "prepare_real_dataset.py",
         BASE_DIR / "scripts" / "preprocess_data.py",
         BASE_DIR / "scripts" / "train_model.py",
+        BASE_DIR / "scripts" / "build_genre_popularity.py",
     ]
 
     for script in scripts:
@@ -49,7 +50,7 @@ async def train_model():
     metadata = model_service.metadata
     return TrainResponse(
         success=True,
-        message="Model je uspesno ponovo obucen na sintetickom datasetu (prototip).",
+        message="Model je uspesno ponovo obucen na realnom Spotify datasetu.",
         modelVersion=metadata.get("modelVersion"),
         algorithm=metadata.get("algorithm"),
         metrics=metadata.get("metrics"),

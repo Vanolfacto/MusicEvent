@@ -39,6 +39,7 @@ class ArtistInput(BaseModel):
     yearsOfExperience: int = Field(ge=0, le=80, default=0)
     isAvailable: bool = True
     genreIds: list[int] = Field(default_factory=list)
+    genreNames: list[str] = Field(default_factory=list)
     pastSuccessSimilarEvents: float = Field(ge=0, le=1, default=0.5)
 
     @field_validator("maximumFee")

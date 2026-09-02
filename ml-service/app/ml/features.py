@@ -30,6 +30,18 @@ def _budget_match(
     return max(0.0, (overlap_max - overlap_min) / span)
 
 
+def compute_genre_popularity(
+    genre_names: list[str], genre_popularity: dict[str, float]
+) -> float:
+    default = genre_popularity.get("_default", 0.5)
+    if not genre_names:
+        return round(default, 4)
+    scores = [
+        genre_popularity.get(str(name).strip().upper(), default) for name in genre_names
+    ]
+    return round(sum(scores) / len(scores), 4)
+
+
 def build_feature_row(event: dict[str, Any], artist: dict[str, Any]) -> dict[str, Any]:
     event_city = str(event.get("city", "")).strip().upper()
     artist_city = str(artist.get("city", "")).strip().upper()

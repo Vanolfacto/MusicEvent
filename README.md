@@ -122,13 +122,14 @@ Seed kreira: 1 admin, 6 organizatora, 55 izvođača, 35 događaja, prijave, nast
 
 ```bash
 cd ml-service
-python scripts/generate_synthetic_data.py
+python scripts/prepare_real_dataset.py    # preuzima realan Spotify Tracks Dataset
 python scripts/preprocess_data.py
 python scripts/train_model.py
+python scripts/build_genre_popularity.py  # realan signal popularnosti po žanru
 python scripts/evaluate_model.py
 ```
 
-**Najbolji model:** Gradient Boosting v1.0.0 (F1 ≈ 0.784, ROC AUC ≈ 0.714) na sintetičkim podacima.
+**Najbolji model:** Logistic Regression v2.0.0 (F1 ≈ 0.793, ROC AUC ≈ 0.857) na realnom, javno dostupnom [Spotify Tracks Dataset-u](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) (114k pesama). Detalji o metodologiji i povezivanju sa preporukama izvođača: [`docs/machine-learning-methodology.md`](./docs/machine-learning-methodology.md).
 
 ## Testovi
 
@@ -150,7 +151,7 @@ Kompletna dokumentacija za master rad nalazi se u [`/docs`](./docs/README.md):
 
 ## Poznata ograničenja
 
-- ML dataset je **sintetički** — samo za prototip
+- ML dataset (Spotify Tracks Dataset) je realan, ali ne sadrži stvarne booking podatke za par događaj–izvođač — v. `docs/machine-learning-methodology.md` za objašnjenje kako se model ipak realno koristi u preporukama
 - Auth integracioni testovi zahtevaju pokrenut PostgreSQL
 - Nema E2E testova ni produkcijskog HTTPS-a
 

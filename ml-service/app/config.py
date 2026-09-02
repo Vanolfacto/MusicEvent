@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     )
 
     ml_service_port: int = 8000
-    ml_model_version: str = "1.0.0"
+    ml_model_version: str = "2.0.0"
     ml_model_path: str = "./models/best_model.joblib"
     random_seed: int = 42
 

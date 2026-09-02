@@ -13,7 +13,7 @@ Dokumentacija za projekat „Inteligentni informacioni sistem za organizaciju mu
 | 5 | [architecture.md](./architecture.md) | Arhitektura sistema i komunikacija servisa |
 | 6 | [database-design.md](./database-design.md) | ER dijagram, entiteti, indeksi |
 | 7 | [machine-learning-methodology.md](./machine-learning-methodology.md) | ML pipeline, algoritmi, metrike |
-| 8 | [dataset-description.md](./dataset-description.md) | Sintetički dataset i kolone |
+| 8 | [dataset-description.md](./dataset-description.md) | Realan dataset (Spotify Tracks Dataset) i kolone |
 | 9 | [model-evaluation.md](./model-evaluation.md) | Evaluacija i artefakti |
 | 10 | [api-documentation.md](./api-documentation.md) | REST API (server + ML servis) |
 | 11 | [testing.md](./testing.md) | Strategija i pokrivenost testova |

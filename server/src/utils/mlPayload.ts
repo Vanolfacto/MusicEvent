@@ -21,6 +21,7 @@ export interface MlArtistPayload {
   yearsOfExperience: number;
   isAvailable: boolean;
   genreIds: number[];
+  genreNames: string[];
   pastSuccessSimilarEvents: number;
 }
 
@@ -75,7 +76,7 @@ export function buildMlArtistPayload(
     totalPerformances: number;
     yearsOfExperience: number;
     isAvailable: boolean;
-    genres: { genreId: number }[];
+    genres: { genreId: number; genre: { name: string } }[];
   },
   pastSuccessSimilarEvents = 0.5,
 ): MlArtistPayload {
@@ -90,6 +91,7 @@ export function buildMlArtistPayload(
     yearsOfExperience: artist.yearsOfExperience,
     isAvailable: artist.isAvailable,
     genreIds: artist.genres.map((g) => g.genreId),
+    genreNames: artist.genres.map((g) => g.genre.name),
     pastSuccessSimilarEvents,
   };
 }

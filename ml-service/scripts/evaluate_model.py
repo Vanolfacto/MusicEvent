@@ -75,7 +75,7 @@ def main() -> None:
         "algorithm": metadata.get("algorithm"),
         "metrics": metrics,
         "classificationReport": report,
-        "notes": "Evaluacija na sintetičkom test skupu — samo za prototip.",
+        "notes": "Evaluacija na realnom test skupu (Spotify Tracks Dataset).",
     }
     metrics_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 

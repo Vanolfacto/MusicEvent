@@ -1,0 +1,15 @@
+{
+  "ROCK": 0.5791,
+  "POP": 0.6238,
+  "JAZZ": 0.4738,
+  "ELECTRONIC": 0.485,
+  "FOLK": 0.5036,
+  "METAL": 0.3602,
+  "HIP HOP": 0.7427,
+  "CLASSICAL": 0.3518,
+  "BLUES": 0.6053,
+  "COUNTRY": 0.2075,
+  "REGGAE": 0.5539,
+  "R&B": 0.67,
+  "_default": 0.516
+}

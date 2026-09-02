@@ -61,9 +61,10 @@ uvicorn app.main:app --reload --port 8000
 Model mora postojati (`models/best_model.joblib`). Ako ne postoji:
 
 ```bash
-python scripts/generate_synthetic_data.py
+python scripts/prepare_real_dataset.py
 python scripts/preprocess_data.py
 python scripts/train_model.py
+python scripts/build_genre_popularity.py
 ```
 
 ### 4. Frontend

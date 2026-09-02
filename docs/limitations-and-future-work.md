@@ -4,10 +4,10 @@
 
 ### Podaci i ML
 
-- **Sintetički dataset** — ML model treniran na veštačkim podacima (`generate_synthetic_data.py`)
-- Rezultati evaluacije ne predstavljaju performanse na stvarnim podacima
-- Nema online learning — ponovno treniranje zahteva ručni CSV export
+- **Realan dataset** (Spotify Tracks Dataset, 114k pesama) koristi se za treniranje modela koji predviđa popularnost pesme — ne postoji javno dostupan dataset o stvarnim booking odlukama (događaj–izvođač), pa se model umesto toga koristi za izvođenje realnog signala popularnosti po žanru koji ulazi u preporuke (v. `machine-learning-methodology.md`)
+- Nema online learning — ponovno treniranje se pokreće ručno (`POST /train` ili skripte u `scripts/`)
 - Objašnjenja preporuka su rule-based, ne SHAP/LIME
+- Mapiranje 125 Spotify mikro-žanrova u 12 žanrova aplikacije je ručno urađeno pojednostavljenje
 - Pre generisanja preporuka, kandidati se filtriraju po `preferredArtistType` događaja (samo SOLO / BAND / DJ koji odgovara)
 
 ### Funkcionalnost
@@ -39,7 +39,7 @@
 
 ### Kratkoročno
 
-1. **Stvarni podaci** — prikupljanje interakcija korisnika za retreniranje
+1. **Stvarni booking podaci** — prikupljanje stvarnih interakcija (prijave, prihvatanja, ocene) sa platforme radi treniranja modela specifično za problem podudaranja događaj–izvođač, kad bude dovoljno korisničkih podataka
 2. **E2E testovi** — Playwright za kritične tokove (login, kreiranje događaja, preporuke)
 3. **CI/CD** — GitHub Actions sa PostgreSQL servisom
 4. **Code splitting** — lazy loading stranica po ulozi
@@ -64,7 +64,7 @@ Prototip demonstrira:
 
 - Dizajn informacionog sistema za specifičnu domenu (muzički eventi)
 - Integraciju klasifikacionog ML modela u web aplikaciju
-- Metodologiju evaluacije na sintetičkim podacima sa jasnom putanjom ka stvarnim podacima
+- Metodologiju treniranja i evaluacije na realnom, javno dostupnom datasetu, sa iskrenim priznanjem granica dostupnih podataka (nema javnih booking podataka) i transparentnim rešenjem (realan signal popularnosti kombinovan sa operativnim podacima platforme)
 - Arhitekturu koja razdvaja poslovnu logiku, perzistenciju i ML inferencu
 
 ## Etička napomena

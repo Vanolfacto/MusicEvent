@@ -38,6 +38,9 @@ def build_explanation(features: dict[str, Any], score: float) -> list[str]:
     if features.get("past_success_similar_events", 0) >= 0.6:
         explanations.append("Izvođač ima dobru istoriju na sličnim događajima")
 
+    if features.get("genre_popularity", 0) >= 0.4:
+        explanations.append("Žanr je trenutno popularan (na osnovu analize realnih muzičkih podataka)")
+
     if score >= 0.8:
         explanations.insert(0, "Visoka verovatnoća pogodnosti")
     elif score >= 0.6:

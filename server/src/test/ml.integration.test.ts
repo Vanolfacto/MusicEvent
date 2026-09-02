@@ -29,13 +29,14 @@ describe('mlPayload', () => {
         totalPerformances: 10,
         yearsOfExperience: 5,
         isAvailable: true,
-        genres: [{ genreId: 3 }],
+        genres: [{ genreId: 3, genre: { name: 'Jazz' } }],
       },
       0.7,
     );
 
     expect(payload.artistId).toBe(7);
     expect(payload.pastSuccessSimilarEvents).toBe(0.7);
+    expect(payload.genreNames).toEqual(['Jazz']);
   });
 });
 
@@ -84,7 +85,7 @@ describe('mlClientService', () => {
           totalPerformances: 12,
           yearsOfExperience: 6,
           isAvailable: true,
-          genres: [{ genreId: 1 }],
+          genres: [{ genreId: 1, genre: { name: 'Rock' } }],
         }),
       ],
     );

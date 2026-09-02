@@ -25,7 +25,7 @@ Organizatori događaja često ručno pretražuju izvođače, bez sistematskog up
 - Registracija, autentifikacija (JWT + refresh token) i promena lozinke
 - CRUD nad događajima, profilima i prijavama
 - Upravljanje nastupima (zakazivanje, status, izmena termina) i provera konflikta termina
-- ML preporuke izvođača po događaju
+- ML preporuke izvođača po događaju (model treniran na realnom, javno dostupnom Spotify Tracks Dataset-u — v. `machine-learning-methodology.md`)
 - Ocenjivanje izvođača posle završenog nastupa, sa automatskim preračunavanjem prosečne ocene
 - Dashboard-i sa statistikom (Recharts, FullCalendar)
 - Notifikacije pri ključnim akcijama, sa prikazom u navigaciji (zvonce, broj nepročitanih)

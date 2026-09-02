@@ -95,7 +95,7 @@ def plot_algorithm_comparison(results: list[dict], output_path: Path) -> None:
     ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=15)
     ax.set_ylim(0, 1)
-    ax.set_title("Algorithm comparison - synthetic prototype dataset")
+    ax.set_title("Algorithm comparison - real Spotify Tracks Dataset")
     ax.legend()
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()
@@ -175,8 +175,8 @@ def main() -> None:
         "metrics": best["test_metrics"],
         "cvMetrics": best["cv_metrics"],
         "featureImportance": best["feature_importance"],
-        "notes": "Sintetički dataset — samo za prototip. Ne predstavlja stvarne podatke.",
-        "dataSource": str(PROCESSED_DATA_FILE),
+        "notes": "Realan, javno dostupan dataset (Spotify Tracks Dataset, maharshipandya).",
+        "dataSource": "https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset",
     }
 
     save_model(best["pipeline"], metadata)

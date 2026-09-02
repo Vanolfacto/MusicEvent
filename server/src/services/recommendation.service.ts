@@ -190,7 +190,7 @@ export const recommendationService = {
         artistType: event.preferredArtistType,
         ...(onlyAvailable ? { isAvailable: true } : {}),
       },
-      include: { genres: true },
+      include: { genres: { include: { genre: true } } },
       take: 200,
     });
 
@@ -207,12 +207,6 @@ export const recommendationService = {
     });
 
     const eventGenreIds = new Set(event.genres.map((g) => g.genreId));
-    const genreMatchByArtist = new Map<number, number>(
-      artists.map((artist) => [
-        artist.id,
-        computeGenreMatch(eventGenreIds, artist.genres.map((g) => g.genreId)),
-      ]),
-    );
 
     const pastSuccessByArtist = await computePastSuccessByArtist(
       artists.map((artist) => artist.id),
@@ -223,7 +217,7 @@ export const recommendationService = {
       buildMlArtistPayload(
         {
           ...artist,
-          genres: artist.genres.map((g) => ({ genreId: g.genreId })),
+          genres: artist.genres.map((g) => ({ genreId: g.genreId, genre: g.genre })),
         },
         pastSuccessByArtist.get(artist.id) ?? 0.5,
       ),
@@ -249,18 +243,11 @@ export const recommendationService = {
           (item): item is typeof item & { artistId: number } =>
             item.artistId !== undefined && item.artistId !== null,
         )
-        .map((item) => {
-          const genreMatch = genreMatchByArtist.get(item.artistId) ?? 0;
-          // ML model daje žanru samo ~9% značaja (videti feature_importance u model_metadata.json),
-          // pa preporuke bez podudaranja žanra i dalje mogu da isplivaju visoko na osnovu budžeta/ocene.
-          // Ovde ih namerno kažnjavamo (do 50% pri genreMatch=0) da žanr stvarno utiče na rangiranje.
-          const adjustedScore = Math.round(item.score * (0.5 + 0.5 * genreMatch) * 10000) / 10000;
-          return {
-            artistId: item.artistId,
-            score: adjustedScore,
-            explanation: item.explanation.join('; '),
-          };
-        }),
+        .map((item) => ({
+          artistId: item.artistId,
+          score: item.score,
+          explanation: item.explanation.join('; '),
+        })),
     );
 
     const saved =
