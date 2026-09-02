@@ -42,7 +42,7 @@ export function ArtistCard({
       </div>
       {explanation && (
         <ul className="mt-4 space-y-1 text-sm text-slate-400">
-          {(Array.isArray(explanation) ? explanation : explanation.split('; ')).slice(0, 4).map((item, index) => (
+          {(Array.isArray(explanation) ? explanation : explanation.split('; ')).map((item, index) => (
             <li key={index}>• {item}</li>
           ))}
         </ul>
