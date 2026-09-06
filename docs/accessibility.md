@@ -69,10 +69,18 @@ Ispravke: svih 21 pojavljivanja `text-slate-500` u kodu client aplikacije zamenj
 `text-slate-400` (7 fajlova → 11 fajlova, 21 pojavljivanje), a hover stanje `.btn-primary`
 dugmeta promenjeno je sa `primary-500` na `primary-700`.
 
-## 6. Šta NIJE urađeno u ovoj fazi (otvoreno, za sledeći korak)
+## 6. Mobilna navigacija (WCAG 2.1.1, 1.3.1)
 
-- Nema mobilnog navigacionog menija — `<nav>` je potpuno sakriven ispod `md` breakpoint-a
-  bez hamburger alternative. Ovo je šira UX/funkcionalna praznina, ne samo pristupačnosna.
+Autentifikovani korisnici na malim ekranima ranije nisu imali nijedan način da dođu do
+Dashboard-a ili ostalih linkova specifičnih za ulogu (glavni `<nav>` je bio potpuno
+sakriven ispod `md` breakpoint-a, bez alternative) — ovo nije bio samo pristupačnosni, već
+i opšti funkcionalni nedostatak. Dodato je hamburger dugme (`aria-expanded`,
+`aria-controls`, `aria-label` koji se menja u zavisnosti od stanja) koje otvara potpuno
+tastaturom i čitačem ekrana dostupan mobilni meni (`role` je prirodno `nav`, zatvara se na
+Escape i na klik na link).
+
+## 7. Šta NIJE urađeno u ovoj fazi (otvoreno, za sledeći korak)
+
 - Nije rađeno manuelno testiranje pravim čitačem ekrana (NVDA/VoiceOver) — ovo je sledeći,
   odvojeni korak koji profesor eksplicitno traži kao deo poglavlja o testiranju
   ("сценарије провере прилагођености за циљну групу").
