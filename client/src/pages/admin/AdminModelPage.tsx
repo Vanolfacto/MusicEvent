@@ -34,8 +34,8 @@ export default function AdminModelPage() {
       {metrics.length > 0 && (
         <div className="card h-72">
           <h3 className="mb-4 font-semibold text-white">Metrike modela (%)</h3>
-          <div aria-hidden="true">
-            <ResponsiveContainer width="100%" height="90%">
+          <div aria-hidden="true" style={{ height: '90%' }}>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics}>
                 <XAxis dataKey="name" stroke="#94a3b8" />
                 <YAxis stroke="#94a3b8" domain={[0, 100]} />
