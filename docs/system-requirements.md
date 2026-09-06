@@ -57,7 +57,8 @@
 | Bezbednost | bcrypt, Helmet, CORS, rate limiting, Zod validacija |
 | Skalabilnost | Odvojeni ML servis, stateless API |
 | Održivost | TypeScript, slojevita arhitektura, testovi |
-| Dostupnost | Responsive UI (Tailwind) |
+| Pristupačnost | WCAG 2.2 AA (v. `accessibility.md`): labelovane forme, aria-live greške, tastaturska navigacija, izmeren kontrast boja, mobilni meni |
+| Dostupnost (responzivnost) | Responsive UI (Tailwind) |
 | Reproduktivnost | Docker Compose, seed podaci, RANDOM_SEED=42 |
 
 ## Tehnički zahtevi
@@ -69,6 +70,9 @@
 
 ## Ograničenja prototipa
 
-- Sintetički ML dataset (v. `dataset-description.md`)
+- ML model je treniran na realnom, javno dostupnom Spotify Tracks Dataset-u (v.
+  `dataset-description.md`); paralelno je istražen i manji, ručno prikupljen dataset
+  realnih lokalnih izvođača (v. `../ml-service/research/`), još uvek van produkcionog
+  sistema, u fazi validacije rezultata
 - Nema produkcijskog HTTPS-a ni email verifikacije
 - Notifikacije su in-app (bez push/email servisa)

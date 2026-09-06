@@ -5,6 +5,12 @@
 ### Podaci i ML
 
 - **Realan dataset** (Spotify Tracks Dataset, 114k pesama) koristi se za treniranje modela koji predviđa popularnost pesme — ne postoji javno dostupan dataset o stvarnim booking odlukama (događaj–izvođač), pa se model umesto toga koristi za izvođenje realnog signala popularnosti po žanru koji ulazi u preporuke (v. `machine-learning-methodology.md`)
+- Paralelno je pokrenuto istraživanje sa manjim, ručno prikupljenim datasetom realnih
+  lokalnih izvođača (61 red, 7 nezavisnih izvora — v. `../ml-service/research/`), sa
+  prototipom koji predviđa stvarnu pogodnost tipa događaja iz žanra/sastava (Random
+  Forest, macro F1 0.594 naspram 0.410 baseline-a). Ovo je namerno ostalo van
+  produkcionog sistema dok se rezultat ne prijavi mentoru i ne dobije potvrda za
+  integraciju — trenutno je u fazi validacije, ne u fazi implementacije.
 - Nema online learning — ponovno treniranje se pokreće ručno (`POST /train` ili skripte u `scripts/`)
 - Objašnjenja preporuka su rule-based, ne SHAP/LIME
 - Mapiranje 125 Spotify mikro-žanrova u 12 žanrova aplikacije je ručno urađeno pojednostavljenje
@@ -39,10 +45,14 @@
 
 ### Kratkoročno
 
-1. **Stvarni booking podaci** — prikupljanje stvarnih interakcija (prijave, prihvatanja, ocene) sa platforme radi treniranja modela specifično za problem podudaranja događaj–izvođač, kad bude dovoljno korisničkih podataka
-2. **E2E testovi** — Playwright za kritične tokove (login, kreiranje događaja, preporuke)
-3. **CI/CD** — GitHub Actions sa PostgreSQL servisom
-4. **Code splitting** — lazy loading stranica po ulozi
+1. **Integracija lokalnog dataset-a** (u toku) — proširiti istraživački dataset u
+   `ml-service/research/` dodatnim izvorima, i nakon potvrde mentora integrisati
+   validirani signal u produkcioni `/recommend` tok
+2. **Manuelno NVDA testiranje** (u toku) — izvesti scenarije iz
+   `accessibility-testing-scenarios.md` i uneti rezultate u rad
+3. **E2E testovi** — Playwright za kritične tokove (login, kreiranje događaja, preporuke)
+4. **CI/CD** — GitHub Actions sa PostgreSQL servisom
+5. **Code splitting** — lazy loading stranica po ulozi
 
 ### Srednjoročno
 
