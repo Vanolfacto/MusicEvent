@@ -7,6 +7,7 @@ Dokumentacija za projekat „Inteligentni informacioni sistem za organizaciju mu
 | # | Dokument | Opis |
 |---|----------|------|
 | 1 | [project-overview.md](./project-overview.md) | Pregled projekta, uloge, tehnologije |
+| 1b | [related-work.md](./related-work.md) | Pregled srodnih radova — poređenje sa postojećim platformama |
 | 2 | [problem-definition.md](./problem-definition.md) | Definicija problema i istraživačko pitanje |
 | 3 | [system-requirements.md](./system-requirements.md) | Funkcionalni i nefunkcionalni zahtevi |
 | 4 | [use-cases.md](./use-cases.md) | Use case dijagrami (Mermaid) |
