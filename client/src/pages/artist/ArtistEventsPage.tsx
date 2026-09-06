@@ -30,7 +30,11 @@ export default function ArtistEventsPage() {
           {data?.items.map((event) => (
             <div key={event.id}>
               <EventCard event={event} />
-              <button onClick={() => applyMutation.mutate(event.id)} className="btn-primary mt-2 text-sm">
+              <button
+                onClick={() => applyMutation.mutate(event.id)}
+                aria-label={`Prijavi se za događaj "${event.title}"`}
+                className="btn-primary mt-2 text-sm"
+              >
                 Prijavi se
               </button>
             </div>

@@ -32,9 +32,27 @@ export default function OrganizerEventsPage() {
             <div key={event.id} className="relative">
               <EventCard event={event} />
               <div className="mt-2 flex gap-2">
-                <Link to={`/organizer/events/${event.id}`} className="text-sm text-primary-400 hover:underline">Detalji</Link>
-                <Link to={`/organizer/events/${event.id}/edit`} className="text-sm text-slate-400 hover:underline">Uredi</Link>
-                <Link to={`/organizer/events/${event.id}/recommendations`} className="text-sm text-accent-400 hover:underline">Preporuke</Link>
+                <Link
+                  to={`/organizer/events/${event.id}`}
+                  aria-label={`Detalji događaja "${event.title}"`}
+                  className="text-sm text-primary-400 hover:underline"
+                >
+                  Detalji
+                </Link>
+                <Link
+                  to={`/organizer/events/${event.id}/edit`}
+                  aria-label={`Uredi događaj "${event.title}"`}
+                  className="text-sm text-slate-400 hover:underline"
+                >
+                  Uredi
+                </Link>
+                <Link
+                  to={`/organizer/events/${event.id}/recommendations`}
+                  aria-label={`Preporuke izvođača za "${event.title}"`}
+                  className="text-sm text-accent-400 hover:underline"
+                >
+                  Preporuke
+                </Link>
               </div>
             </div>
           ))}

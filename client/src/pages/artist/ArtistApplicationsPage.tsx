@@ -47,14 +47,27 @@ export default function ArtistApplicationsPage() {
               </div>
               {app.applicationType === 'INVITE' && app.status === 'PENDING' && (
                 <div className="flex gap-2">
-                  <button onClick={() => respondMutation.mutate({ id: app.id, status: 'ACCEPTED' })} className="btn-primary text-sm">Prihvati</button>
-                  <button onClick={() => respondMutation.mutate({ id: app.id, status: 'REJECTED' })} className="btn-primary bg-slate-700 text-sm">Odbij</button>
+                  <button
+                    onClick={() => respondMutation.mutate({ id: app.id, status: 'ACCEPTED' })}
+                    aria-label={`Prihvati poziv za "${app.event?.title}"`}
+                    className="btn-primary text-sm"
+                  >
+                    Prihvati
+                  </button>
+                  <button
+                    onClick={() => respondMutation.mutate({ id: app.id, status: 'REJECTED' })}
+                    aria-label={`Odbij poziv za "${app.event?.title}"`}
+                    className="btn-primary bg-slate-700 text-sm"
+                  >
+                    Odbij
+                  </button>
                 </div>
               )}
               {app.applicationType === 'APPLY' && app.status === 'PENDING' && (
                 <button
                   onClick={() => withdrawMutation.mutate(app.id)}
                   disabled={withdrawMutation.isPending}
+                  aria-label={`Povuci prijavu za "${app.event?.title}"`}
                   className="btn-primary bg-slate-700 text-sm"
                 >
                   Povuci prijavu

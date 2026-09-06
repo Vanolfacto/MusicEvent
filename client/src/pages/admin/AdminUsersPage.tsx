@@ -74,7 +74,11 @@ export default function AdminUsersPage() {
                         ))}
                       </select>
                       {profileId != null && (
-                        <Link to={profileLink} className="text-sm text-primary-400 hover:text-primary-300">
+                        <Link
+                          to={profileLink}
+                          aria-label={`Vidi profil korisnika ${user.firstName} ${user.lastName}`}
+                          className="text-sm text-primary-400 hover:text-primary-300"
+                        >
                           Vidi profil
                         </Link>
                       )}

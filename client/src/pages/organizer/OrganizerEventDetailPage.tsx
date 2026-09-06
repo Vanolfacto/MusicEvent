@@ -203,8 +203,20 @@ export default function OrganizerEventDetailPage() {
                 <div className="flex gap-2">
                   {app.status === 'PENDING' && app.applicationType === 'APPLY' && (
                     <>
-                      <button onClick={() => respondMutation.mutate({ appId: app.id, status: 'ACCEPTED' })} className="btn-primary text-sm">Prihvati</button>
-                      <button onClick={() => respondMutation.mutate({ appId: app.id, status: 'REJECTED' })} className="btn-primary bg-slate-700 text-sm">Odbij</button>
+                      <button
+                        onClick={() => respondMutation.mutate({ appId: app.id, status: 'ACCEPTED' })}
+                        aria-label={`Prihvati prijavu izvođača ${app.artist?.stageName}`}
+                        className="btn-primary text-sm"
+                      >
+                        Prihvati
+                      </button>
+                      <button
+                        onClick={() => respondMutation.mutate({ appId: app.id, status: 'REJECTED' })}
+                        aria-label={`Odbij prijavu izvođača ${app.artist?.stageName}`}
+                        className="btn-primary bg-slate-700 text-sm"
+                      >
+                        Odbij
+                      </button>
                     </>
                   )}
                   {needsScheduling && (
@@ -279,6 +291,7 @@ export default function OrganizerEventDetailPage() {
                 {!isCompleted && (
                   <div className="flex flex-wrap items-center gap-2">
                     <select
+                      aria-label={`Status nastupa izvođača ${p.artist?.stageName}`}
                       className="input text-sm"
                       value={p.status}
                       disabled={updatePerformanceMutation.isPending}
@@ -293,6 +306,11 @@ export default function OrganizerEventDetailPage() {
                     <button
                       type="button"
                       onClick={() => (isEditing ? setEditingPerfId(null) : openEditPerformance(p))}
+                      aria-label={
+                        isEditing
+                          ? `Otkaži uređivanje nastupa izvođača ${p.artist?.stageName}`
+                          : `Uredi nastup izvođača ${p.artist?.stageName}`
+                      }
                       className="btn-primary bg-slate-700 text-sm"
                     >
                       {isEditing ? 'Otkaži' : 'Uredi'}

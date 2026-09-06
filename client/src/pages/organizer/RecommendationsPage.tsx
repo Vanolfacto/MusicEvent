@@ -190,6 +190,7 @@ export default function RecommendationsPage() {
                     <div className="flex flex-wrap gap-2">
                       <Link
                         to={`/artists/${rec.artistId}`}
+                        aria-label={`Detaljan profil izvođača ${rec.artist.stageName}`}
                         className="btn-primary bg-slate-800 text-sm hover:bg-slate-700"
                       >
                         Detaljan profil
@@ -201,6 +202,12 @@ export default function RecommendationsPage() {
                             setOpenInviteArtistId(showInviteForm ? null : rec.artistId);
                             setInviteMessage('');
                           }}
+                          aria-expanded={showInviteForm}
+                          aria-label={
+                            showInviteForm
+                              ? `Otkaži poziv izvođaču ${rec.artist.stageName}`
+                              : `Pošalji poziv izvođaču ${rec.artist.stageName}`
+                          }
                           className="btn-primary text-sm"
                         >
                           {showInviteForm ? 'Otkaži' : 'Pošalji poziv'}
@@ -209,7 +216,11 @@ export default function RecommendationsPage() {
                     </div>
                     {showInviteForm && inviteAllowed && (
                       <div className="space-y-2">
+                        <label htmlFor={`invite-message-${rec.artistId}`} className="sr-only">
+                          Poruka izvođaču {rec.artist.stageName} (opciono)
+                        </label>
                         <textarea
+                          id={`invite-message-${rec.artistId}`}
                           value={inviteMessage}
                           onChange={(e) => setInviteMessage(e.target.value)}
                           placeholder="Opciona poruka izvođaču..."
@@ -225,6 +236,7 @@ export default function RecommendationsPage() {
                               message: inviteMessage,
                             })
                           }
+                          aria-label={`Potvrdi poziv izvođaču ${rec.artist.stageName}`}
                           className="btn-primary w-full text-sm"
                         >
                           {inviteMutation.isPending ? 'Slanje...' : 'Potvrdi poziv'}

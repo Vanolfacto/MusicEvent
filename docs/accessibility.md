@@ -37,6 +37,13 @@ izvođača, profil organizatora, promena lozinke) je prošlo kroz:
 - Dugmad za brisanje u administratorskom pregledu imaju kontekstualni `aria-label`
   (npr. `Obriši događaj "Naziv"`) umesto generičkog "Obriši" koje bi bilo nerazlučivo u
   listi sa više stavki.
+- Isti problem (generičko dugme/link ponovljeno u svakom redu liste — "Prihvati",
+  "Odbij", "Uredi", "Detalji", "Vidi profil", "Prijavi se", "Pošalji poziv", "Povuci
+  prijavu") sistematski je pregledan i ispravljen kroz 7 stranica (prijave organizatora
+  i izvođača, detalji događaja, liste događaja, preporuke, administratorski korisnici) —
+  svako sada ima `aria-label` sa imenom izvođača/nazivom događaja, tako da čitač ekrana
+  u režimu liste linkova/dugmadi (npr. NVDA `Insert+F7`) razlikuje stavke, ne samo čita
+  isti tekst više puta.
 
 ## 4. Ne-tekstualni sadržaj (WCAG 1.1.1)
 
