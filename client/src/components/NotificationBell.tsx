@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../lib/api';
 import type { ApiResponse, Notification } from '../types';
@@ -6,6 +6,19 @@ import type { ApiResponse, Notification } from '../types';
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
 
   const { data } = useQuery({
     queryKey: ['notifications'],
@@ -31,14 +44,21 @@ export default function NotificationBell() {
   return (
     <div className="relative">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="relative rounded-full p-2 text-slate-300 hover:bg-slate-800 hover:text-white"
-        aria-label="Notifikacije"
+        aria-label={unreadCount > 0 ? `Notifikacije, ${unreadCount} nepročitanih` : 'Notifikacije'}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="notifications-panel"
       >
-        🔔
+        <span aria-hidden="true">🔔</span>
         {unreadCount > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white">
+          <span
+            aria-hidden="true"
+            className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white"
+          >
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -46,7 +66,12 @@ export default function NotificationBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 z-50 mt-2 w-80 rounded-lg border border-slate-800 bg-slate-900 shadow-xl">
+          <div
+            id="notifications-panel"
+            role="region"
+            aria-label="Notifikacije"
+            className="absolute right-0 z-50 mt-2 w-80 rounded-lg border border-slate-800 bg-slate-900 shadow-xl"
+          >
             <div className="flex items-center justify-between border-b border-slate-800 px-4 py-2">
               <p className="text-sm font-medium text-white">Notifikacije</p>
               {unreadCount > 0 && (
@@ -61,7 +86,7 @@ export default function NotificationBell() {
             </div>
             <div className="max-h-96 overflow-y-auto">
               {items.length === 0 ? (
-                <p className="px-4 py-6 text-center text-sm text-slate-500">Nemate notifikacija</p>
+                <p className="px-4 py-6 text-center text-sm text-slate-400">Nemate notifikacija</p>
               ) : (
                 items.map((n) => (
                   <button
@@ -69,10 +94,13 @@ export default function NotificationBell() {
                     type="button"
                     onClick={() => !n.isRead && markReadMutation.mutate(n.id)}
                     className={`block w-full border-b border-slate-800/60 px-4 py-3 text-left text-sm last:border-0 ${
-                      n.isRead ? 'text-slate-500' : 'bg-primary-500/5 text-slate-200'
+                      n.isRead ? 'text-slate-400' : 'bg-primary-500/5 text-slate-200'
                     }`}
                   >
-                    <p className="font-medium">{n.title}</p>
+                    <p className="font-medium">
+                      {n.title}
+                      {!n.isRead && <span className="sr-only"> (nepročitano)</span>}
+                    </p>
                     <p className="mt-0.5 text-xs text-slate-400">{n.message}</p>
                   </button>
                 ))

@@ -136,7 +136,7 @@ export default function ArtistMyEventsPage() {
                         {formatDate(app.event.startDateTime)}
                       </p>
                     )}
-                    <p className="mt-2 text-xs text-slate-500">
+                    <p className="mt-2 text-xs text-slate-400">
                       {app.applicationType === 'INVITE' ? 'Prihvaćen poziv' : 'Prihvaćena prijava'} —
                       organizator će dodati termin nastupa.
                     </p>

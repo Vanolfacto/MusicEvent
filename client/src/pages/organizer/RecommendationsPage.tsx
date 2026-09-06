@@ -138,9 +138,13 @@ export default function RecommendationsPage() {
         }
       />
       {noGenreMatch && (
-        <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
-          ⚠️ Nijedan dostupan izvođač se ne poklapa po žanru sa ovim događajem — preporuke ispod su
-          rangirane isključivo po drugim kriterijumima (ocena, budžet, dostupnost).
+        <div
+          role="status"
+          className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300"
+        >
+          <span aria-hidden="true">⚠️</span> Nijedan dostupan izvođač se ne poklapa po žanru sa ovim
+          događajem — preporuke ispod su rangirane isključivo po drugim kriterijumima (ocena, budžet,
+          dostupnost).
         </div>
       )}
       {isLoading ? (
@@ -228,7 +232,7 @@ export default function RecommendationsPage() {
                       </div>
                     )}
                     {!inviteAllowed && artistApps.some((a) => a.applicationType === 'INVITE') && (
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-400">
                         Poziv je već poslat ovom izvođaču za ovaj događaj.
                       </p>
                     )}

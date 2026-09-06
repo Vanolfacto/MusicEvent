@@ -47,42 +47,66 @@ export default function SettingsPage() {
   return (
     <div className="max-w-2xl">
       <PageHeader title="Podešavanja" />
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4" noValidate>
         <h2 className="font-display text-lg font-semibold text-white">Promeni lozinku</h2>
 
         <div>
+          <label htmlFor="settings-currentPassword" className="mb-1 block text-sm text-slate-300">
+            Trenutna lozinka
+          </label>
           <input
             {...register('currentPassword')}
+            id="settings-currentPassword"
             type="password"
-            placeholder="Trenutna lozinka"
+            autoComplete="current-password"
+            aria-invalid={errors.currentPassword ? true : undefined}
+            aria-describedby={errors.currentPassword ? 'settings-currentPassword-error' : undefined}
             className="input"
           />
           {errors.currentPassword && (
-            <p className="mt-1 text-sm text-red-400">{errors.currentPassword.message}</p>
+            <p id="settings-currentPassword-error" role="alert" className="mt-1 text-sm text-red-400">
+              {errors.currentPassword.message}
+            </p>
           )}
         </div>
 
         <div>
+          <label htmlFor="settings-newPassword" className="mb-1 block text-sm text-slate-300">
+            Nova lozinka
+          </label>
           <input
             {...register('newPassword')}
+            id="settings-newPassword"
             type="password"
-            placeholder="Nova lozinka"
+            autoComplete="new-password"
+            aria-invalid={errors.newPassword ? true : undefined}
+            aria-describedby={errors.newPassword ? 'settings-newPassword-error' : undefined}
             className="input"
           />
           {errors.newPassword && (
-            <p className="mt-1 text-sm text-red-400">{errors.newPassword.message}</p>
+            <p id="settings-newPassword-error" role="alert" className="mt-1 text-sm text-red-400">
+              {errors.newPassword.message}
+            </p>
           )}
         </div>
 
         <div>
+          <label htmlFor="settings-confirmPassword" className="mb-1 block text-sm text-slate-300">
+            Potvrdi novu lozinku
+          </label>
           <input
             {...register('confirmPassword')}
+            id="settings-confirmPassword"
             type="password"
-            placeholder="Potvrdi novu lozinku"
+            autoComplete="new-password"
+            aria-invalid={errors.confirmPassword ? true : undefined}
+            aria-describedby={errors.confirmPassword ? 'settings-confirmPassword-error' : undefined}
             className="input"
           />
           {errors.confirmPassword && (
-            <p className="mt-1 text-sm text-red-400">{errors.confirmPassword.message}</p>
+            <p id="settings-confirmPassword-error" role="alert" className="mt-1 text-sm text-red-400">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
 

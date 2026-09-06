@@ -37,13 +37,14 @@ export default function AdminEventsPage() {
             <div key={event.id}>
               <EventCard event={event} />
               <div className="mt-1 flex items-center justify-between gap-2">
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-400">
                   Organizator: {event.organizer?.organizationName || 'N/A'} · {event.status}
                 </p>
                 <button
                   type="button"
                   onClick={() => handleDelete(event.id)}
                   disabled={deleteMutation.isPending}
+                  aria-label={`Obriši događaj "${event.title}"`}
                   className="btn-primary bg-red-900 text-xs hover:bg-red-800"
                 >
                   Obriši

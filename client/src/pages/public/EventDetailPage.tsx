@@ -28,12 +28,12 @@ export default function EventDetailPage() {
         <h1 className="mt-4 font-display text-3xl font-bold text-white">{event.title}</h1>
         <p className="mt-4 text-slate-300">{event.description}</p>
         <dl className="mt-6 grid gap-4 sm:grid-cols-2 text-sm">
-          <div><dt className="text-slate-500">Grad</dt><dd className="text-white">{event.city}</dd></div>
-          <div><dt className="text-slate-500">Lokacija</dt><dd className="text-white">{event.venue}</dd></div>
-          <div><dt className="text-slate-500">Početak</dt><dd className="text-white">{formatDate(event.startDateTime)}</dd></div>
-          <div><dt className="text-slate-500">Kraj</dt><dd className="text-white">{formatDate(event.endDateTime)}</dd></div>
-          <div><dt className="text-slate-500">Publika</dt><dd className="text-white">{event.expectedAudience}</dd></div>
-          <div><dt className="text-slate-500">Budžet</dt><dd className="text-white">{Number(event.minimumBudget)}–{Number(event.maximumBudget)} RSD</dd></div>
+          <div><dt className="text-slate-400">Grad</dt><dd className="text-white">{event.city}</dd></div>
+          <div><dt className="text-slate-400">Lokacija</dt><dd className="text-white">{event.venue}</dd></div>
+          <div><dt className="text-slate-400">Početak</dt><dd className="text-white">{formatDate(event.startDateTime)}</dd></div>
+          <div><dt className="text-slate-400">Kraj</dt><dd className="text-white">{formatDate(event.endDateTime)}</dd></div>
+          <div><dt className="text-slate-400">Publika</dt><dd className="text-white">{event.expectedAudience}</dd></div>
+          <div><dt className="text-slate-400">Budžet</dt><dd className="text-white">{Number(event.minimumBudget)}–{Number(event.maximumBudget)} RSD</dd></div>
         </dl>
       </div>
     </div>

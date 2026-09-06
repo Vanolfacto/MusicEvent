@@ -123,51 +123,131 @@ export default function EventFormPage() {
   return (
     <div className="max-w-2xl">
       <PageHeader title={isEdit ? 'Uredi događaj' : 'Novi događaj'} />
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
-        <input {...register('title')} placeholder="Naslov" className="input" />
-        <textarea {...register('description')} placeholder="Opis" className="input min-h-24" />
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4" noValidate>
+        <div>
+          <label htmlFor="event-title" className="mb-1 block text-sm text-slate-300">Naslov</label>
+          <input
+            {...register('title')}
+            id="event-title"
+            aria-invalid={errors.title ? true : undefined}
+            aria-describedby={errors.title ? 'event-title-error' : undefined}
+            className="input"
+          />
+          {errors.title && (
+            <p id="event-title-error" role="alert" className="mt-1 text-sm text-red-400">{errors.title.message}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="event-description" className="mb-1 block text-sm text-slate-300">Opis</label>
+          <textarea {...register('description')} id="event-description" className="input min-h-24" />
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <select {...register('eventType')} className="input">{['CONCERT','FESTIVAL','PRIVATE_PARTY','WEDDING','CORPORATE','CLUB_NIGHT','OTHER'].map((t) => <option key={t} value={t}>{t}</option>)}</select>
-          <select {...register('preferredArtistType')} className="input"><option value="SOLO">Solo</option><option value="BAND">Bend</option><option value="DJ">DJ</option></select>
-          <input {...register('city')} placeholder="Grad" className="input" />
-          <input {...register('venue')} placeholder="Lokacija" className="input" />
-          <input {...register('startDateTime')} type="datetime-local" className="input" />
           <div>
-            <input {...register('endDateTime')} type="datetime-local" className="input" />
-            {errors.endDateTime && <p className="mt-1 text-sm text-red-400">{errors.endDateTime.message}</p>}
-          </div>
-          <input {...register('expectedAudience')} type="number" placeholder="Publika" className="input" />
-          <input {...register('minimumBudget')} type="number" placeholder="Min budžet" className="input" />
-          <div>
-            <input {...register('maximumBudget')} type="number" placeholder="Max budžet" className="input" />
-            {errors.maximumBudget && <p className="mt-1 text-sm text-red-400">{errors.maximumBudget.message}</p>}
+            <label htmlFor="event-eventType" className="mb-1 block text-sm text-slate-300">Tip događaja</label>
+            <select {...register('eventType')} id="event-eventType" className="input">
+              {['CONCERT','FESTIVAL','PRIVATE_PARTY','WEDDING','CORPORATE','CLUB_NIGHT','OTHER'].map((t) => <option key={t} value={t}>{t}</option>)}
+            </select>
           </div>
           <div>
-            <select {...register('status')} className="input" disabled={isTerminalStatus}>
+            <label htmlFor="event-preferredArtistType" className="mb-1 block text-sm text-slate-300">Tip izvođača</label>
+            <select {...register('preferredArtistType')} id="event-preferredArtistType" className="input">
+              <option value="SOLO">Solo</option><option value="BAND">Bend</option><option value="DJ">DJ</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="event-city" className="mb-1 block text-sm text-slate-300">Grad</label>
+            <input
+              {...register('city')}
+              id="event-city"
+              aria-invalid={errors.city ? true : undefined}
+              aria-describedby={errors.city ? 'event-city-error' : undefined}
+              className="input"
+            />
+            {errors.city && (
+              <p id="event-city-error" role="alert" className="mt-1 text-sm text-red-400">{errors.city.message}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="event-venue" className="mb-1 block text-sm text-slate-300">Lokacija</label>
+            <input
+              {...register('venue')}
+              id="event-venue"
+              aria-invalid={errors.venue ? true : undefined}
+              aria-describedby={errors.venue ? 'event-venue-error' : undefined}
+              className="input"
+            />
+            {errors.venue && (
+              <p id="event-venue-error" role="alert" className="mt-1 text-sm text-red-400">{errors.venue.message}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="event-startDateTime" className="mb-1 block text-sm text-slate-300">Početak</label>
+            <input {...register('startDateTime')} id="event-startDateTime" type="datetime-local" className="input" />
+          </div>
+          <div>
+            <label htmlFor="event-endDateTime" className="mb-1 block text-sm text-slate-300">Kraj</label>
+            <input
+              {...register('endDateTime')}
+              id="event-endDateTime"
+              type="datetime-local"
+              aria-invalid={errors.endDateTime ? true : undefined}
+              aria-describedby={errors.endDateTime ? 'event-endDateTime-error' : undefined}
+              className="input"
+            />
+            {errors.endDateTime && (
+              <p id="event-endDateTime-error" role="alert" className="mt-1 text-sm text-red-400">{errors.endDateTime.message}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="event-expectedAudience" className="mb-1 block text-sm text-slate-300">Očekivana publika</label>
+            <input {...register('expectedAudience')} id="event-expectedAudience" type="number" className="input" />
+          </div>
+          <div>
+            <label htmlFor="event-minimumBudget" className="mb-1 block text-sm text-slate-300">Min budžet (RSD)</label>
+            <input {...register('minimumBudget')} id="event-minimumBudget" type="number" className="input" />
+          </div>
+          <div>
+            <label htmlFor="event-maximumBudget" className="mb-1 block text-sm text-slate-300">Max budžet (RSD)</label>
+            <input
+              {...register('maximumBudget')}
+              id="event-maximumBudget"
+              type="number"
+              aria-invalid={errors.maximumBudget ? true : undefined}
+              aria-describedby={errors.maximumBudget ? 'event-maximumBudget-error' : undefined}
+              className="input"
+            />
+            {errors.maximumBudget && (
+              <p id="event-maximumBudget-error" role="alert" className="mt-1 text-sm text-red-400">{errors.maximumBudget.message}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="event-status" className="mb-1 block text-sm text-slate-300">Status</label>
+            <select {...register('status')} id="event-status" className="input" disabled={isTerminalStatus}>
               <option value="DRAFT">Nacrt</option>
               <option value="PUBLISHED">Objavljen</option>
               {isEdit && <option value="CANCELLED">Otkazan</option>}
               {isTerminalStatus && <option value="COMPLETED">Završen</option>}
             </select>
             {isTerminalStatus && (
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-slate-400">
                 Status otkazanog ili završenog događaja se više ne može menjati.
               </p>
             )}
           </div>
         </div>
-        <div>
-          <p className="mb-2 text-sm text-slate-300">Žanrovi</p>
+        <fieldset>
+          <legend className="mb-2 text-sm text-slate-300">Žanrovi</legend>
           <div className="flex flex-wrap gap-2">
             {genres?.map((g) => (
               <button key={g.id} type="button" onClick={() => toggleGenre(g.id)}
+                aria-pressed={selectedGenres.includes(g.id)}
                 className={`rounded px-3 py-1 text-sm ${selectedGenres.includes(g.id) ? 'bg-primary-600 text-white' : 'bg-slate-800 text-slate-300'}`}>
                 {g.name}
               </button>
             ))}
           </div>
-          {errors.genreIds && <p className="mt-1 text-sm text-red-400">Izaberite bar jedan žanr</p>}
-        </div>
+          {errors.genreIds && <p role="alert" className="mt-1 text-sm text-red-400">Izaberite bar jedan žanr</p>}
+        </fieldset>
         <button type="submit" disabled={isSubmitting} className="btn-primary">{isSubmitting ? 'Čuvanje...' : 'Sačuvaj'}</button>
       </form>
     </div>

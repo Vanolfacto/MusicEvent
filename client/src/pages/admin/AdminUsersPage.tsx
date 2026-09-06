@@ -33,7 +33,13 @@ export default function AdminUsersPage() {
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead className="text-slate-400">
-            <tr><th className="p-3">Ime</th><th>Email</th><th>Uloga</th><th>Status</th><th></th></tr>
+            <tr>
+              <th scope="col" className="p-3">Ime</th>
+              <th scope="col">Email</th>
+              <th scope="col">Uloga</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span className="sr-only">Akcije</span></th>
+            </tr>
           </thead>
           <tbody>
             {data?.map((user) => {
@@ -55,6 +61,7 @@ export default function AdminUsersPage() {
                   <td className="p-3">
                     <div className="flex items-center gap-3">
                       <select
+                        aria-label={`Status korisnika ${user.firstName} ${user.lastName}`}
                         className="input text-sm"
                         value={user.status}
                         disabled={updateStatusMutation.isPending}

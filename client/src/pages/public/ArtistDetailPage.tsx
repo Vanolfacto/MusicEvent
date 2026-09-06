@@ -25,10 +25,10 @@ export default function ArtistDetailPage() {
         <p className="mt-2 text-slate-400">{artist.city} · {artist.artistType}</p>
         <p className="mt-4 text-slate-300">{artist.biography}</p>
         <dl className="mt-6 grid gap-4 sm:grid-cols-2 text-sm">
-          <div><dt className="text-slate-500">Ocena</dt><dd className="text-white">⭐ {Number(artist.averageRating).toFixed(2)}</dd></div>
-          <div><dt className="text-slate-500">Honorar</dt><dd className="text-white">{Number(artist.minimumFee)}–{Number(artist.maximumFee)} RSD</dd></div>
-          <div><dt className="text-slate-500">Nastupa</dt><dd className="text-white">{artist.totalPerformances}</dd></div>
-          <div><dt className="text-slate-500">Iskustvo</dt><dd className="text-white">{artist.yearsOfExperience} god.</dd></div>
+          <div><dt className="text-slate-400">Ocena</dt><dd className="text-white"><span aria-hidden="true">⭐</span> {Number(artist.averageRating).toFixed(2)}</dd></div>
+          <div><dt className="text-slate-400">Honorar</dt><dd className="text-white">{Number(artist.minimumFee)}–{Number(artist.maximumFee)} RSD</dd></div>
+          <div><dt className="text-slate-400">Nastupa</dt><dd className="text-white">{artist.totalPerformances}</dd></div>
+          <div><dt className="text-slate-400">Iskustvo</dt><dd className="text-white">{artist.yearsOfExperience} god.</dd></div>
         </dl>
         {artist.genres && (
           <div className="mt-4 flex flex-wrap gap-2">

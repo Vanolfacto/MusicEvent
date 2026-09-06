@@ -108,7 +108,7 @@ export default function ArtistProfilePage() {
   return (
     <div className="max-w-2xl">
       <PageHeader title="Moj profil" />
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4" noValidate>
         <label className="flex items-center justify-between rounded border border-primary-700 bg-primary-950/40 px-4 py-3">
           <span className="text-sm font-medium text-white">Dostupan za nove nastupe</span>
           <input type="checkbox" {...register('isAvailable')} className="h-5 w-5" />
@@ -120,69 +120,145 @@ export default function ArtistProfilePage() {
         )}
 
         <div>
-          <input {...register('stageName')} placeholder="Umetničko ime" className="input" />
-          {errors.stageName && <p className="mt-1 text-sm text-red-400">{errors.stageName.message}</p>}
+          <label htmlFor="artist-stageName" className="mb-1 block text-sm text-slate-300">Umetničko ime</label>
+          <input
+            {...register('stageName')}
+            id="artist-stageName"
+            aria-invalid={errors.stageName ? true : undefined}
+            aria-describedby={errors.stageName ? 'artist-stageName-error' : undefined}
+            className="input"
+          />
+          {errors.stageName && (
+            <p id="artist-stageName-error" role="alert" className="mt-1 text-sm text-red-400">{errors.stageName.message}</p>
+          )}
         </div>
-        <textarea {...register('biography')} placeholder="Biografija" className="input min-h-24" />
+        <div>
+          <label htmlFor="artist-biography" className="mb-1 block text-sm text-slate-300">Biografija</label>
+          <textarea {...register('biography')} id="artist-biography" className="input min-h-24" />
+        </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <input {...register('city')} placeholder="Grad" className="input" />
-            {errors.city && <p className="mt-1 text-sm text-red-400">{errors.city.message}</p>}
-          </div>
-          <select {...register('artistType')} className="input">
-            <option value="SOLO">Solo</option>
-            <option value="BAND">Bend</option>
-            <option value="DJ">DJ</option>
-          </select>
-          <div>
-            <input {...register('memberCount')} type="number" placeholder="Broj članova" className="input" />
-            {errors.memberCount && <p className="mt-1 text-sm text-red-400">{errors.memberCount.message}</p>}
+            <label htmlFor="artist-city" className="mb-1 block text-sm text-slate-300">Grad</label>
+            <input
+              {...register('city')}
+              id="artist-city"
+              aria-invalid={errors.city ? true : undefined}
+              aria-describedby={errors.city ? 'artist-city-error' : undefined}
+              className="input"
+            />
+            {errors.city && <p id="artist-city-error" role="alert" className="mt-1 text-sm text-red-400">{errors.city.message}</p>}
           </div>
           <div>
-            <input {...register('yearsOfExperience')} type="number" placeholder="Godine iskustva" className="input" />
-            {errors.yearsOfExperience && <p className="mt-1 text-sm text-red-400">{errors.yearsOfExperience.message}</p>}
+            <label htmlFor="artist-artistType" className="mb-1 block text-sm text-slate-300">Tip izvođača</label>
+            <select {...register('artistType')} id="artist-artistType" className="input">
+              <option value="SOLO">Solo</option>
+              <option value="BAND">Bend</option>
+              <option value="DJ">DJ</option>
+            </select>
           </div>
           <div>
-            <input {...register('minimumFee')} type="number" placeholder="Min honorar" className="input" />
-            {errors.minimumFee && <p className="mt-1 text-sm text-red-400">{errors.minimumFee.message}</p>}
+            <label htmlFor="artist-memberCount" className="mb-1 block text-sm text-slate-300">Broj članova</label>
+            <input
+              {...register('memberCount')}
+              id="artist-memberCount"
+              type="number"
+              aria-invalid={errors.memberCount ? true : undefined}
+              aria-describedby={errors.memberCount ? 'artist-memberCount-error' : undefined}
+              className="input"
+            />
+            {errors.memberCount && <p id="artist-memberCount-error" role="alert" className="mt-1 text-sm text-red-400">{errors.memberCount.message}</p>}
           </div>
           <div>
-            <input {...register('maximumFee')} type="number" placeholder="Max honorar" className="input" />
-            {errors.maximumFee && <p className="mt-1 text-sm text-red-400">{errors.maximumFee.message}</p>}
+            <label htmlFor="artist-yearsOfExperience" className="mb-1 block text-sm text-slate-300">Godine iskustva</label>
+            <input
+              {...register('yearsOfExperience')}
+              id="artist-yearsOfExperience"
+              type="number"
+              aria-invalid={errors.yearsOfExperience ? true : undefined}
+              aria-describedby={errors.yearsOfExperience ? 'artist-yearsOfExperience-error' : undefined}
+              className="input"
+            />
+            {errors.yearsOfExperience && <p id="artist-yearsOfExperience-error" role="alert" className="mt-1 text-sm text-red-400">{errors.yearsOfExperience.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="artist-minimumFee" className="mb-1 block text-sm text-slate-300">Min honorar (RSD)</label>
+            <input
+              {...register('minimumFee')}
+              id="artist-minimumFee"
+              type="number"
+              aria-invalid={errors.minimumFee ? true : undefined}
+              aria-describedby={errors.minimumFee ? 'artist-minimumFee-error' : undefined}
+              className="input"
+            />
+            {errors.minimumFee && <p id="artist-minimumFee-error" role="alert" className="mt-1 text-sm text-red-400">{errors.minimumFee.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="artist-maximumFee" className="mb-1 block text-sm text-slate-300">Max honorar (RSD)</label>
+            <input
+              {...register('maximumFee')}
+              id="artist-maximumFee"
+              type="number"
+              aria-invalid={errors.maximumFee ? true : undefined}
+              aria-describedby={errors.maximumFee ? 'artist-maximumFee-error' : undefined}
+              className="input"
+            />
+            {errors.maximumFee && <p id="artist-maximumFee-error" role="alert" className="mt-1 text-sm text-red-400">{errors.maximumFee.message}</p>}
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <input {...register('spotifyUrl')} placeholder="Spotify URL" className="input" />
-            {errors.spotifyUrl && <p className="mt-1 text-sm text-red-400">{errors.spotifyUrl.message}</p>}
+            <label htmlFor="artist-spotifyUrl" className="mb-1 block text-sm text-slate-300">Spotify URL</label>
+            <input
+              {...register('spotifyUrl')}
+              id="artist-spotifyUrl"
+              aria-invalid={errors.spotifyUrl ? true : undefined}
+              aria-describedby={errors.spotifyUrl ? 'artist-spotifyUrl-error' : undefined}
+              className="input"
+            />
+            {errors.spotifyUrl && <p id="artist-spotifyUrl-error" role="alert" className="mt-1 text-sm text-red-400">{errors.spotifyUrl.message}</p>}
           </div>
           <div>
-            <input {...register('youtubeUrl')} placeholder="YouTube URL" className="input" />
-            {errors.youtubeUrl && <p className="mt-1 text-sm text-red-400">{errors.youtubeUrl.message}</p>}
+            <label htmlFor="artist-youtubeUrl" className="mb-1 block text-sm text-slate-300">YouTube URL</label>
+            <input
+              {...register('youtubeUrl')}
+              id="artist-youtubeUrl"
+              aria-invalid={errors.youtubeUrl ? true : undefined}
+              aria-describedby={errors.youtubeUrl ? 'artist-youtubeUrl-error' : undefined}
+              className="input"
+            />
+            {errors.youtubeUrl && <p id="artist-youtubeUrl-error" role="alert" className="mt-1 text-sm text-red-400">{errors.youtubeUrl.message}</p>}
           </div>
           <div>
-            <input {...register('instagramUrl')} placeholder="Instagram URL" className="input" />
-            {errors.instagramUrl && <p className="mt-1 text-sm text-red-400">{errors.instagramUrl.message}</p>}
+            <label htmlFor="artist-instagramUrl" className="mb-1 block text-sm text-slate-300">Instagram URL</label>
+            <input
+              {...register('instagramUrl')}
+              id="artist-instagramUrl"
+              aria-invalid={errors.instagramUrl ? true : undefined}
+              aria-describedby={errors.instagramUrl ? 'artist-instagramUrl-error' : undefined}
+              className="input"
+            />
+            {errors.instagramUrl && <p id="artist-instagramUrl-error" role="alert" className="mt-1 text-sm text-red-400">{errors.instagramUrl.message}</p>}
           </div>
         </div>
 
-        <div>
-          <p className="mb-2 text-sm text-slate-300">Žanrovi</p>
+        <fieldset>
+          <legend className="mb-2 text-sm text-slate-300">Žanrovi</legend>
           <div className="flex flex-wrap gap-2">
             {genres?.map((g) => (
               <button
                 key={g.id}
                 type="button"
                 onClick={() => toggleGenre(g.id)}
+                aria-pressed={selectedGenres.includes(g.id)}
                 className={`rounded px-3 py-1 text-sm ${selectedGenres.includes(g.id) ? 'bg-primary-600 text-white' : 'bg-slate-800 text-slate-300'}`}
               >
                 {g.name}
               </button>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <button type="submit" disabled={isSubmitting || mutation.isPending} className="btn-primary">
           {isSubmitting || mutation.isPending ? 'Čuvanje...' : 'Sačuvaj'}

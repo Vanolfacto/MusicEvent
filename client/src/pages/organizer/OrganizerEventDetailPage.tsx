@@ -305,7 +305,10 @@ export default function OrganizerEventDetailPage() {
                 if (existingReview) {
                   return (
                     <div className="border-t border-slate-800 pt-3 text-sm">
-                      <p className="text-amber-400">⭐ {existingReview.rating}/5</p>
+                      <p className="text-amber-400">
+                        <span aria-hidden="true">⭐</span> <span className="sr-only">Ocena:</span>
+                        {existingReview.rating}/5
+                      </p>
                       {existingReview.comment && (
                         <p className="mt-1 text-slate-400">{existingReview.comment}</p>
                       )}

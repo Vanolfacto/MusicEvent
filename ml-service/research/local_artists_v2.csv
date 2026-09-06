@@ -1,0 +1,62 @@
+name,city,genre_bucket,primary_event_type,all_event_types,member_info,label_source,source_agency,source_url
+ZHIVA,Beograd,FOLK,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+OXAJO,,ROCK,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+MAPO KEYS,,JAZZ,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+JELENA PRANIĆ,,POP,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+ASONANCA,,R&B,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+GORAN GUMP,Novi Beograd,OTHER,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+LUTON,,ELECTRONIC,CONCERT,CONCERT,DJ,site_category,Glitch Records,https://glitch.rs/
+DRUMATTIC,Beograd,ELECTRONIC,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+VIZELJ,Beograd,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+JIMMY FITZSIMMONS,Novi Sad,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+MANIVI,Beograd,ELECTRONIC,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+BVANA IZ LAGUNE,,HIP HOP,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+RATKER,,POP,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+ŠĆEPA,Beograd,ELECTRONIC,CONCERT,CONCERT,DJ,site_category,Glitch Records,https://glitch.rs/
+SUPERPAUN,,OTHER,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+DELAYTRIP,Novi Sad,HIP HOP,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+NATALEÉ,Svrljig/Beograd,R&B,CONCERT,CONCERT,solo,site_category,Glitch Records,https://glitch.rs/
+HYDROGEN,Novi Sad,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+WEIRD FISHES,,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+KOSMOGENIT,,OTHER,CONCERT,CONCERT,,site_category,Glitch Records,https://glitch.rs/
+GORICA & THE GROOVEHEADZ,,JAZZ,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+ORGANIZAM,,OTHER,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+HRABRI KROJAČ,Beograd,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+BILBORD,,ROCK,CONCERT,CONCERT,bend,site_category,Glitch Records,https://glitch.rs/
+Girls Boys and Toys,,ROCK,CLUB_NIGHT,CLUB_NIGHT,bend,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+LezzGO,,ROCK,CLUB_NIGHT,CLUB_NIGHT,bend,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+SkyLimit,,R&B,CLUB_NIGHT,CLUB_NIGHT,bend,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Stubovi Pop Kulture,,ROCK,CLUB_NIGHT,CLUB_NIGHT,bend,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Coolares,,FOLK,CLUB_NIGHT,CLUB_NIGHT,bend,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Matija Cvek,,POP,CLUB_NIGHT,CLUB_NIGHT,solo,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Massimo Savić,,OTHER,CLUB_NIGHT,CLUB_NIGHT,solo,site_category,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Mega bend,Kragujevac,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Beso De Loco bend,Beograd,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Magla bend,Beograd,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Impuls Band,Čačak,OTHER,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Artego bend,Kraljevo,OTHER,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+CHEGI BEND,Beograd,BLUES,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Orkestar Milovana Petrovića,Užice,FOLK,WEDDING,WEDDING;PRIVATE_PARTY,orkestar,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Infinity bend,Kragujevac,OTHER,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Balkan Ekspres bend,Beograd,OTHER,WEDDING,WEDDING;PRIVATE_PARTY,bend,site_category,Bendovi Srbije,https://bendovisrbije.com/
+Republika bend,Beograd,FOLK,WEDDING,WEDDING;CORPORATE;CLUB_NIGHT,bend,per_artist,Republika Bend,https://republikabend.rs/svi-bendovi/
+Velaris bend,Novi Sad,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,per_artist,Republika Bend,https://republikabend.rs/svi-bendovi/
+Persefona bend,Beograd,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,per_artist,Republika Bend,https://republikabend.rs/svi-bendovi/
+Intonacija bend,Novi Sad,POP,WEDDING,WEDDING;PRIVATE_PARTY,bend,per_artist,Republika Bend,https://republikabend.rs/svi-bendovi/
+Vivo Bend,,POP,WEDDING,WEDDING;PRIVATE_PARTY;CORPORATE,bend(8),per_artist,Vivo Bendovi,https://vivobendovi.com/
+Get Lucky Band,,POP,WEDDING,WEDDING;PRIVATE_PARTY;CORPORATE,bend(8),per_artist,Vivo Bendovi,https://vivobendovi.com/
+Party Time Bend,,POP,WEDDING,WEDDING;PRIVATE_PARTY;CORPORATE,bend(7),per_artist,Vivo Bendovi,https://vivobendovi.com/
+Gudački Kvartet Essenca,,CLASSICAL,WEDDING,WEDDING,kvartet,per_artist,Vivo Bendovi,https://vivobendovi.com/
+Žuti Kišobran,Novi Sad,OTHER,WEDDING,WEDDING;CLUB_NIGHT,bend(6),per_artist,PBS Novi Sad,https://pro-bendovizasvadbe.com/
+Kvartet Plus,Novi Sad,OTHER,WEDDING,WEDDING;PRIVATE_PARTY,bend(7),per_artist,PBS Novi Sad,https://pro-bendovizasvadbe.com/
+Babaroga Bend,Novi Sad,OTHER,WEDDING,WEDDING,bend(7),per_artist,PBS Novi Sad,https://pro-bendovizasvadbe.com/
+Rusija Bend,Novi Sad,OTHER,WEDDING,WEDDING;CLUB_NIGHT,bend(7),per_artist,PBS Novi Sad,https://pro-bendovizasvadbe.com/
+Showtime Bend,Beograd,ROCK,WEDDING,WEDDING;CLUB_NIGHT;CORPORATE,bend(6),per_artist,Event Centar,https://event-centar.rs/bendovi/showtime-bend
+Big Deal,Beograd,ROCK,WEDDING,WEDDING,bend,per_artist,Vencanja.com,https://www.vencanja.com/
+Adam i Eva bend,Beograd,FOLK,WEDDING,WEDDING;PRIVATE_PARTY,bend(7),per_artist,Vencanja.com,https://www.vencanja.com/
+Vlade Panović orkestar,Guča,FOLK,FESTIVAL,FESTIVAL,orkestar,per_artist,Guča Sabor Trubača,https://gucafest.rs/program/dan-3
+Trubački orkestar Dejana Jevđića,Guča,FOLK,FESTIVAL,FESTIVAL,orkestar,per_artist,Guča Sabor Trubača,https://gucafest.rs/program/dan-3
+Falco Spirit,Niš,JAZZ,FESTIVAL,FESTIVAL,bend,per_artist,Nišville Jazz Festival,https://kulturajuga.rs/program-za-nisville-2025/
+Big Band RTS,Niš,JAZZ,FESTIVAL,FESTIVAL,bend,per_artist,Nišville Jazz Festival,https://kulturajuga.rs/program-za-nisville-2025/
+Proces,Niš,JAZZ,FESTIVAL,FESTIVAL,bend,per_artist,Nišville Jazz Festival,https://kulturajuga.rs/program-za-nisville-2025/
+Duvački orkestar Nidži,Vlasotince,FOLK,WEDDING,WEDDING;PRIVATE_PARTY,orkestar,site_category,Zvuk Proslave,https://zvukproslave.rs/kategorija/muzicari/

@@ -52,18 +52,18 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center gap-2">
-          <span className="text-2xl">🎵</span>
+          <span aria-hidden="true" className="text-2xl">🎵</span>
           <span className="font-display text-xl font-bold text-white">Music Event AI</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav aria-label="Glavna navigacija" className="hidden items-center gap-6 md:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.end}
               className={({ isActive }) =>
-                `text-sm font-medium transition ${isActive ? 'text-primary-400' : 'text-slate-300 hover:text-white'}`
+                `rounded text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-slate-950 ${isActive ? 'text-primary-400' : 'text-slate-300 hover:text-white'}`
               }
             >
               {link.label}

@@ -1,0 +1,41 @@
+name,city,genre_raw,genre_bucket,event_type,member_info,source_agency,source_url
+ZHIVA,Beograd,Singer-songwriter,FOLK,klub/koncert,solo,Glitch Records,https://glitch.rs/
+OXAJO,,Rock/Alternative,ROCK,klub/koncert,,Glitch Records,https://glitch.rs/
+MAPO KEYS,,Jazz/Electronic,JAZZ,klub/koncert,,Glitch Records,https://glitch.rs/
+JELENA PRANIĆ,,Dream pop,POP,klub/koncert,solo,Glitch Records,https://glitch.rs/
+ASONANCA,,"Funk, neo soul, pop, rock",R&B,klub/koncert,bend,Glitch Records,https://glitch.rs/
+GORAN GUMP,Novi Beograd,,OTHER,klub/koncert,solo,Glitch Records,https://glitch.rs/
+LUTON,,House music DJ,ELECTRONIC,klub/koncert,DJ,Glitch Records,https://glitch.rs/
+DRUMATTIC,Beograd,"Trip hop, electro pop",ELECTRONIC,klub/koncert,,Glitch Records,https://glitch.rs/
+VIZELJ,Beograd,Rock and roll,ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+JIMMY FITZSIMMONS,Novi Sad,"Garage rock, funk, hip-hop, rock",ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+MANIVI,Beograd,Mixed/electronic,ELECTRONIC,klub/koncert,,Glitch Records,https://glitch.rs/
+BVANA IZ LAGUNE,,Hip-hop/Rap,HIP HOP,klub/koncert,solo,Glitch Records,https://glitch.rs/
+RATKER,,Synth pop,POP,klub/koncert,solo,Glitch Records,https://glitch.rs/
+ŠĆEPA,Beograd,Electronic/Bass,ELECTRONIC,klub/koncert,DJ,Glitch Records,https://glitch.rs/
+SUPERPAUN,,,OTHER,klub/koncert,,Glitch Records,https://glitch.rs/
+DELAYTRIP,Novi Sad,"Jazzy hip-hop, indie, soul",HIP HOP,klub/koncert,bend,Glitch Records,https://glitch.rs/
+NATALEÉ,Svrljig/Beograd,"Serbian soul, modern sevdah",R&B,klub/koncert,solo,Glitch Records,https://glitch.rs/
+HYDROGEN,Novi Sad,Indie post-punk,ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+WEIRD FISHES,,Alternative,ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+KOSMOGENIT,,,OTHER,klub/koncert,,Glitch Records,https://glitch.rs/
+GORICA & THE GROOVEHEADZ,,Jazz,JAZZ,klub/koncert,bend,Glitch Records,https://glitch.rs/
+ORGANIZAM,,,OTHER,klub/koncert,bend,Glitch Records,https://glitch.rs/
+HRABRI KROJAČ,Beograd,Alternative rock,ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+BILBORD,,Psychedelic rock,ROCK,klub/koncert,bend,Glitch Records,https://glitch.rs/
+Girls Boys and Toys,,"Pop, rock, house (cover)",ROCK,klub/koncert,bend,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+LezzGO,,"Pop, rock, house (cover)",ROCK,klub/koncert,bend,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+SkyLimit,,Disco 70s (cover),R&B,klub/koncert,bend,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Stubovi Pop Kulture,,"Domaći i strani pop/rock (cover)",ROCK,klub/koncert,bend,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Coolares,,"Starogradska muzika, pop/rock (cover)",FOLK,klub/koncert,bend,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Matija Cvek,,Pop,POP,klub/koncert,solo,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Massimo Savić,,,OTHER,klub/koncert,solo,BitefArtCafe,https://bitefartcafe.rs/booking-izvodaca/
+Mega bend,Kragujevac,"Pop, zabavna",POP,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Beso De Loco bend,Beograd,Pop,POP,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Magla bend,Beograd,Pop,POP,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Impuls Band,Čačak,,OTHER,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Artego bend,Kraljevo,"DJ & Violin Show",OTHER,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+CHEGI BEND,Beograd,Bluz,BLUES,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Orkestar Milovana Petrovića,Užice,"Tradicija i moderni aranžmani",FOLK,svadba/proslava,orkestar,Bendovi Srbije,https://bendovisrbije.com/
+Infinity bend,Kragujevac,,OTHER,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/
+Balkan Ekspres bend,Beograd,"Domaća i međunarodna muzika",OTHER,svadba/proslava,bend,Bendovi Srbije,https://bendovisrbije.com/

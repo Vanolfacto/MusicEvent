@@ -29,16 +29,23 @@ export function ArtistCard({
         {score !== undefined && (
           <div className="text-right">
             <p className="text-2xl font-bold text-primary-400">{(score * 100).toFixed(0)}%</p>
-            <p className="text-xs text-slate-500">preporuka</p>
+            <p className="text-xs text-slate-400">preporuka</p>
           </div>
         )}
       </div>
       <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-300">
-        <span>⭐ {rating}</span>
+        <span>
+          <span aria-hidden="true">⭐</span> <span className="sr-only">Prosečna ocena:</span>
+          {rating}
+          <span className="sr-only"> od 5</span>
+        </span>
         <span>
           {Number(artist.minimumFee)}–{Number(artist.maximumFee)} RSD
         </span>
-        <span>{artist.isAvailable ? '✅ Dostupan' : '❌ Nedostupan'}</span>
+        <span>
+          <span aria-hidden="true">{artist.isAvailable ? '✅' : '❌'}</span>{' '}
+          {artist.isAvailable ? 'Dostupan' : 'Nedostupan'}
+        </span>
       </div>
       {explanation && (
         <ul className="mt-4 space-y-1 text-sm text-slate-400">

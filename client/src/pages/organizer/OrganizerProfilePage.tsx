@@ -59,17 +59,39 @@ export default function OrganizerProfilePage() {
   return (
     <div className="max-w-xl">
       <PageHeader title="Moj profil" />
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4" noValidate>
         <div>
-          <input {...register('organizationName')} placeholder="Naziv organizacije" className="input" />
-          {errors.organizationName && <p className="mt-1 text-sm text-red-400">{errors.organizationName.message}</p>}
+          <label htmlFor="org-name" className="mb-1 block text-sm text-slate-300">Naziv organizacije</label>
+          <input
+            {...register('organizationName')}
+            id="org-name"
+            aria-invalid={errors.organizationName ? true : undefined}
+            aria-describedby={errors.organizationName ? 'org-name-error' : undefined}
+            className="input"
+          />
+          {errors.organizationName && (
+            <p id="org-name-error" role="alert" className="mt-1 text-sm text-red-400">{errors.organizationName.message}</p>
+          )}
         </div>
-        <textarea {...register('description')} placeholder="Opis" className="input min-h-24" />
         <div>
-          <input {...register('city')} placeholder="Grad" className="input" />
-          {errors.city && <p className="mt-1 text-sm text-red-400">{errors.city.message}</p>}
+          <label htmlFor="org-description" className="mb-1 block text-sm text-slate-300">Opis</label>
+          <textarea {...register('description')} id="org-description" className="input min-h-24" />
         </div>
-        <input {...register('phone')} placeholder="Telefon" className="input" />
+        <div>
+          <label htmlFor="org-city" className="mb-1 block text-sm text-slate-300">Grad</label>
+          <input
+            {...register('city')}
+            id="org-city"
+            aria-invalid={errors.city ? true : undefined}
+            aria-describedby={errors.city ? 'org-city-error' : undefined}
+            className="input"
+          />
+          {errors.city && <p id="org-city-error" role="alert" className="mt-1 text-sm text-red-400">{errors.city.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="org-phone" className="mb-1 block text-sm text-slate-300">Telefon</label>
+          <input {...register('phone')} id="org-phone" autoComplete="tel" className="input" />
+        </div>
 
         <button type="submit" disabled={isSubmitting || mutation.isPending} className="btn-primary">
           {isSubmitting || mutation.isPending ? 'Čuvanje...' : 'Sačuvaj'}

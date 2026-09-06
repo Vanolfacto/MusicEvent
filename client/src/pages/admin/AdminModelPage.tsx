@@ -27,25 +27,38 @@ export default function AdminModelPage() {
     <div>
       <PageHeader title="ML model" subtitle="Verzija, metrike i istorija treniranja" />
       <div className="card mb-6 space-y-2 text-sm">
-        <p><span className="text-slate-500">Verzija:</span> <span className="text-white">{info?.modelVersion}</span></p>
-        <p><span className="text-slate-500">Algoritam:</span> <span className="text-white">{info?.algorithm}</span></p>
+        <p><span className="text-slate-400">Verzija:</span> <span className="text-white">{info?.modelVersion}</span></p>
+        <p><span className="text-slate-400">Algoritam:</span> <span className="text-white">{info?.algorithm}</span></p>
         <p className="text-slate-400">{info?.notes}</p>
       </div>
       {metrics.length > 0 && (
         <div className="card h-72">
           <h3 className="mb-4 font-semibold text-white">Metrike modela (%)</h3>
-          <ResponsiveContainer width="100%" height="90%">
-            <BarChart data={metrics}>
-              <XAxis dataKey="name" stroke="#94a3b8" />
-              <YAxis stroke="#94a3b8" domain={[0, 100]} />
-              <Tooltip
-                contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 8 }}
-                labelStyle={{ color: '#e2e8f0' }}
-                itemStyle={{ color: '#c4b5fd' }}
-              />
-              <Bar dataKey="value" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <div aria-hidden="true">
+            <ResponsiveContainer width="100%" height="90%">
+              <BarChart data={metrics}>
+                <XAxis dataKey="name" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" domain={[0, 100]} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 8 }}
+                  labelStyle={{ color: '#e2e8f0' }}
+                  itemStyle={{ color: '#c4b5fd' }}
+                />
+                <Bar dataKey="value" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <table className="sr-only">
+            <caption>Metrike modela u procentima</caption>
+            <thead>
+              <tr><th scope="col">Metrika</th><th scope="col">Vrednost</th></tr>
+            </thead>
+            <tbody>
+              {metrics.map((m) => (
+                <tr key={m.name}><th scope="row">{m.name}</th><td>{m.value}%</td></tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
       {runs?.length > 0 && (
