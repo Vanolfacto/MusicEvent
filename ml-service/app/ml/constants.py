@@ -13,7 +13,9 @@ PROCESSED_DATA_FILE = DATA_PROCESSED_DIR / "training_data.csv"
 BEST_MODEL_FILE = MODELS_DIR / "best_model.joblib"
 MODEL_METADATA_FILE = MODELS_DIR / "model_metadata.json"
 GENRE_POPULARITY_FILE = MODELS_DIR / "genre_popularity.json"
-MODEL_VERSION = "2.0.0"
+EVENT_TYPE_FIT_FILE = MODELS_DIR / "event_type_fit.json"
+LOCAL_ARTISTS_RESEARCH_FILE = BASE_DIR / "research" / "local_artists_v2.csv"
+MODEL_VERSION = "2.1.0"
 RANDOM_SEED = 42
 
 # Real dataset: https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset
@@ -53,6 +55,17 @@ ALGORITHMS = {
     "random_forest": "Random Forest",
     "gradient_boosting": "Gradient Boosting",
 }
+
+# App's own event-type taxonomy (matches server/prisma/schema.prisma EventType enum).
+APP_EVENT_TYPES = [
+    "CONCERT",
+    "FESTIVAL",
+    "PRIVATE_PARTY",
+    "WEDDING",
+    "CORPORATE",
+    "CLUB_NIGHT",
+    "OTHER",
+]
 
 # App's own genre taxonomy (matches server/prisma/schema.prisma seed genres).
 APP_GENRES = [

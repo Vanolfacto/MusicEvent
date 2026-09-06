@@ -1,9 +1,16 @@
-# Istraživanje: lokalni podaci o izvođačima (Faza 1)
+# Istraživanje: lokalni podaci o izvođačima (Faza 1–3)
 
-Ovaj direktorijum je **potpuno odvojen od `ml-service/app`** i ne utiče na živu aplikaciju.
-Sadržaj je istraživački prototip napravljen po instrukciji profesora: prvo prikupiti i
-strukturirati realne lokalne podatke, zatim napraviti prototip modela, i tek nakon
-potvrde da rezultati imaju smisla — razmišljati o integraciji u sistem.
+Ovaj direktorijum sadrži istraživački prototip napravljen po instrukciji profesora: prvo
+prikupiti i strukturirati realne lokalne podatke, zatim napraviti prototip modela, i tek
+nakon potvrde da rezultati imaju smisla — integrisati u sistem.
+
+**Status: integrisano.** Nakon prijave rezultata (Faza 1–2, ispod) i profesorove potvrde,
+`local_artists_v2.csv` se sada koristi za generisanje `models/event_type_fit.json`
+(`scripts/build_event_type_fit.py`, u `ml-service/`, van ovog direktorijuma), koji ulazi
+u produkcionu `/recommend` formulu — v. `docs/machine-learning-methodology.md`. Sadržaj
+OVOG direktorijuma (sirovi CSV-ovi, prototip skripte) i dalje nije deo `ml-service/app` i
+sam po sebi ne utiče na aplikaciju — služi kao dokumentovan izvor za generisani lookup
+fajl i kao dokaz metodologije za rad.
 
 ## Izvor podataka
 

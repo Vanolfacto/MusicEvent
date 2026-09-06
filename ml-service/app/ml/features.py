@@ -42,6 +42,24 @@ def compute_genre_popularity(
     return round(sum(scores) / len(scores), 4)
 
 
+def compute_event_type_fit(
+    event_type: str,
+    genre_names: list[str],
+    event_type_fit: dict[str, dict[str, float]],
+) -> float:
+    """How well the artist's genre(s) fit this specific event type, based on
+    the real, manually collected local-artist dataset (see
+    ml-service/research/). Falls back to a neutral 0.5 wherever the local
+    sample is too small to say anything meaningful — see
+    scripts/build_event_type_fit.py for the exact thresholds."""
+    per_genre = event_type_fit.get(str(event_type).strip().upper(), {})
+    default = per_genre.get("_default", 0.5)
+    if not genre_names:
+        return round(default, 4)
+    scores = [per_genre.get(str(name).strip().upper(), default) for name in genre_names]
+    return round(sum(scores) / len(scores), 4)
+
+
 def build_feature_row(event: dict[str, Any], artist: dict[str, Any]) -> dict[str, Any]:
     event_city = str(event.get("city", "")).strip().upper()
     artist_city = str(artist.get("city", "")).strip().upper()

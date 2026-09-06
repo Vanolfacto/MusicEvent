@@ -42,7 +42,12 @@ def build_explanation(features: dict[str, Any], score: float) -> list[str]:
     if features.get("genre_popularity", 0) >= 0.4:
         explanations.append("Žanr je trenutno popularan (na osnovu analize realnih muzičkih podataka)")
 
-    explanations = explanations[:6]
+    if features.get("event_type_fit", 0) >= 0.6:
+        explanations.append(
+            "Žanr izvođača se često bira za ovaj tip događaja (na osnovu realnih lokalnih podataka o bukingu)"
+        )
+
+    explanations = explanations[:7]
 
     if score >= 0.8:
         explanations.insert(0, "Visoka verovatnoća pogodnosti")

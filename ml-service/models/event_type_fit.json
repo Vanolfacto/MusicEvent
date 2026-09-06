@@ -1,0 +1,59 @@
+{
+  "CONCERT": {
+    "_default": 0.4167,
+    "ELECTRONIC": 1.0,
+    "FOLK": 0.125,
+    "JAZZ": 0.4,
+    "POP": 0.1667,
+    "R&B": 0.6667,
+    "ROCK": 0.5833
+  },
+  "FESTIVAL": {
+    "_default": 0.1042,
+    "ELECTRONIC": 0.0,
+    "FOLK": 0.25,
+    "JAZZ": 0.6,
+    "POP": 0.0,
+    "R&B": 0.0,
+    "ROCK": 0.0
+  },
+  "PRIVATE_PARTY": {
+    "_default": 0.2708,
+    "ELECTRONIC": 0.0,
+    "FOLK": 0.375,
+    "JAZZ": 0.0,
+    "POP": 0.75,
+    "R&B": 0.0,
+    "ROCK": 0.0
+  },
+  "WEDDING": {
+    "_default": 0.3542,
+    "ELECTRONIC": 0.0,
+    "FOLK": 0.5,
+    "JAZZ": 0.0,
+    "POP": 0.75,
+    "R&B": 0.0,
+    "ROCK": 0.1667
+  },
+  "CORPORATE": {
+    "_default": 0.1042,
+    "ELECTRONIC": 0.0,
+    "FOLK": 0.125,
+    "JAZZ": 0.0,
+    "POP": 0.25,
+    "R&B": 0.0,
+    "ROCK": 0.0833
+  },
+  "CLUB_NIGHT": {
+    "_default": 0.1667,
+    "ELECTRONIC": 0.0,
+    "FOLK": 0.25,
+    "JAZZ": 0.0,
+    "POP": 0.0833,
+    "R&B": 0.3333,
+    "ROCK": 0.3333
+  },
+  "OTHER": {
+    "_default": 0.5
+  }
+}

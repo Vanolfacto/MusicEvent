@@ -51,6 +51,18 @@ python scripts/preprocess_data.py
 
 Istrenirani model se koristi da izvede **realan signal popularnosti po žanru** (`scripts/build_genre_popularity.py` mapira 125 Spotify mikro-žanrova u 12 žanrova aplikacije i agregira predikcije modela po grupi). Taj signal se zatim kombinuje sa stvarnim operativnim podacima platforme (podudaranje žanra, budžeta, grada, ocena, dostupnost) u finalnom rangiranju izvođača za događaj — v. `machine-learning-methodology.md`.
 
+## Drugi realan izvor: lokalni podaci o izvođačima
+
+Pošto Spotify popularnost odražava globalne trendove strimovanja, ne lokalnu potražnju za
+bukingom (primedba mentora), dodat je **drugi, nezavisan realan izvor**: 61 ručno
+prikupljen, imenovan lokalni izvođač/bend sa 7 nezavisnih srpskih booking
+agencija/festivala (v. `ml-service/research/README.md` za potpunu metodologiju i spisak
+izvora). `scripts/build_event_type_fit.py` iz njega računa koliko se određeni žanr
+stvarno bira za koji tip događaja (svadba, klub, festival...), i taj signal
+(`event_type_fit`) ulazi u istu `/recommend` formulu pored `genre_popularity`. Uzorak je
+mali, pa signal pada na neutralnih 0.5 kad god nema dovoljno podataka za pouzdanu
+procenu (v. `machine-learning-methodology.md`).
+
 ## Ograničenja
 
 - `popularity` je Spotify-jeva interna metrika (algoritamski izračunata) — ne meri direktno "kvalitet" muzike, već poznatost/broj reprodukcija

@@ -65,6 +65,7 @@ python scripts/prepare_real_dataset.py
 python scripts/preprocess_data.py
 python scripts/train_model.py
 python scripts/build_genre_popularity.py
+python scripts/build_event_type_fit.py
 ```
 
 ### 4. Frontend

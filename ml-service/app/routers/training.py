@@ -24,6 +24,7 @@ async def train_model():
         BASE_DIR / "scripts" / "preprocess_data.py",
         BASE_DIR / "scripts" / "train_model.py",
         BASE_DIR / "scripts" / "build_genre_popularity.py",
+        BASE_DIR / "scripts" / "build_event_type_fit.py",
     ]
 
     for script in scripts:

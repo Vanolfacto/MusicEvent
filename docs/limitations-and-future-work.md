@@ -5,12 +5,13 @@
 ### Podaci i ML
 
 - **Realan dataset** (Spotify Tracks Dataset, 114k pesama) koristi se za treniranje modela koji predviđa popularnost pesme — ne postoji javno dostupan dataset o stvarnim booking odlukama (događaj–izvođač), pa se model umesto toga koristi za izvođenje realnog signala popularnosti po žanru koji ulazi u preporuke (v. `machine-learning-methodology.md`)
-- Paralelno je pokrenuto istraživanje sa manjim, ručno prikupljenim datasetom realnih
-  lokalnih izvođača (61 red, 7 nezavisnih izvora — v. `../ml-service/research/`), sa
-  prototipom koji predviđa stvarnu pogodnost tipa događaja iz žanra/sastava (Random
-  Forest, macro F1 0.594 naspram 0.410 baseline-a). Ovo je namerno ostalo van
-  produkcionog sistema dok se rezultat ne prijavi mentoru i ne dobije potvrda za
-  integraciju — trenutno je u fazi validacije, ne u fazi implementacije.
+- Manji, ručno prikupljen dataset realnih lokalnih izvođača (61 red, 7 nezavisnih
+  izvora — v. `../ml-service/research/`) je nakon prijave rezultata mentoru i njegove
+  potvrde **integrisan** u produkcioni sistem: `scripts/build_event_type_fit.py`
+  računa koliko se žanr stvarno bira za koji tip događaja u lokalnoj sceni, a taj
+  signal (`event_type_fit`, težina 0.09) sada ulazi u `/recommend` formulu uz
+  postojeći `genre_popularity` (globalni Spotify signal). Zbog malog uzorka, signal
+  pada na neutralnih 0.5 kad god nema dovoljno lokalnih podataka za pouzdanu procenu.
 - Nema online learning — ponovno treniranje se pokreće ručno (`POST /train` ili skripte u `scripts/`)
 - Objašnjenja preporuka su rule-based, ne SHAP/LIME
 - Mapiranje 125 Spotify mikro-žanrova u 12 žanrova aplikacije je ručno urađeno pojednostavljenje
@@ -45,9 +46,9 @@
 
 ### Kratkoročno
 
-1. **Integracija lokalnog dataset-a** (u toku) — proširiti istraživački dataset u
-   `ml-service/research/` dodatnim izvorima, i nakon potvrde mentora integrisati
-   validirani signal u produkcioni `/recommend` tok
+1. **Proširenje lokalnog dataset-a** — dodati još izvora u
+   `ml-service/research/local_artists_v2.csv` kako bi `event_type_fit` signal
+   (integrisan, v. gore) imao pouzdaniju pokrivenost po žanru i tipu događaja
 2. **Manuelno NVDA testiranje** (u toku) — izvesti scenarije iz
    `accessibility-testing-scenarios.md` i uneti rezultate u rad
 3. **E2E testovi** — Playwright za kritične tokove (login, kreiranje događaja, preporuke)

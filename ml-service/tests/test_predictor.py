@@ -8,7 +8,7 @@ its output.
 
 import pytest
 
-from app.ml.features import compute_genre_popularity
+from app.ml.features import compute_event_type_fit, compute_genre_popularity
 from app.ml.predictor import SCORE_WEIGHTS, ModelService
 
 
@@ -37,15 +37,40 @@ class TestComputeGenrePopularity:
         assert compute_genre_popularity(["Rock", "Jazz"], popularity) == 0.5
 
 
+class TestComputeEventTypeFit:
+    def test_unknown_event_type_falls_back_to_neutral_half(self):
+        assert compute_event_type_fit("OTHER", ["Rock"], {}) == 0.5
+
+    def test_empty_genre_list_returns_event_types_default(self):
+        fit = {"WEDDING": {"_default": 0.3, "POP": 0.8}}
+        assert compute_event_type_fit("WEDDING", [], fit) == 0.3
+
+    def test_known_genre_uses_its_own_fit_score(self):
+        fit = {"WEDDING": {"_default": 0.3, "POP": 0.8}}
+        assert compute_event_type_fit("wedding", ["Pop"], fit) == 0.8
+
+    def test_unknown_genre_falls_back_to_event_types_default(self):
+        fit = {"CONCERT": {"_default": 0.4, "ROCK": 0.9}}
+        assert compute_event_type_fit("CONCERT", ["Klezmer"], fit) == 0.4
+
+    def test_multiple_genres_are_averaged(self):
+        fit = {"FESTIVAL": {"_default": 0.5, "JAZZ": 1.0, "POP": 0.0}}
+        assert compute_event_type_fit("FESTIVAL", ["Jazz", "Pop"], fit) == 0.5
+
+
 class TestScorePair:
-    def _service(self, genre_popularity=None):
+    def _service(self, genre_popularity=None, event_type_fit=None):
         service = ModelService()
         service._model = object()  # bypass _ensure_loaded's file-load path
         service._genre_popularity = genre_popularity or {"_default": 0.5}
+        service._event_type_fit = event_type_fit or {}
         return service
 
     def test_perfect_match_scores_at_or_near_the_top(self):
-        service = self._service({"_default": 0.5, "ROCK": 1.0})
+        service = self._service(
+            {"_default": 0.5, "ROCK": 1.0},
+            {"CONCERT": {"_default": 0.5, "ROCK": 1.0}},
+        )
         event = {
             "eventType": "CONCERT",
             "city": "Beograd",
@@ -75,7 +100,7 @@ class TestScorePair:
         assert score == pytest.approx(1.0, abs=1e-6)
 
     def test_worst_case_scores_at_the_bottom(self):
-        service = self._service({"_default": 0.0})
+        service = self._service({"_default": 0.0}, {"CONCERT": {"_default": 0.0}})
         event = {
             "eventType": "CONCERT",
             "city": "Beograd",
@@ -137,6 +162,7 @@ class TestScorePair:
             + SCORE_WEIGHTS["past_success_similar_events"]
             * features["past_success_similar_events"]
             + SCORE_WEIGHTS["genre_popularity"] * features["genre_popularity"]
+            + SCORE_WEIGHTS["event_type_fit"] * features["event_type_fit"]
         )
         assert score == pytest.approx(expected, abs=1e-6)
 
