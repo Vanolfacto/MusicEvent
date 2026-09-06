@@ -44,6 +44,15 @@ export const performanceService = {
     });
   },
 
+  async listMineAsOrganizer(user: User) {
+    const organizer = await requireOrganizerProfile(user);
+    return prisma.performance.findMany({
+      where: { event: { organizerId: organizer.id } },
+      include: performanceInclude,
+      orderBy: { startDateTime: 'asc' },
+    });
+  },
+
   async create(
     user: User,
     data: {
@@ -133,6 +142,18 @@ export const performanceService = {
     const endDateTime = data.endDateTime ?? existing.endDateTime;
     const newStatus = data.status ?? existing.status;
     const reactivatingFromCancelled = existing.status === 'CANCELLED' && newStatus !== 'CANCELLED';
+    const changesScheduleOrFee =
+      data.startDateTime !== undefined || data.endDateTime !== undefined || data.agreedFee !== undefined;
+
+    // Marking a performance COMPLETED/CANCELLED after the event has ended must stay possible
+    // (that's how organizers close out a performance and unlock reviews) — only block changes
+    // that would reschedule/re-fee/reactivate a performance on an event that's already dead.
+    if (changesScheduleOrFee) {
+      assertEventActive(existing.event, 'ažuriranje termina ili honorara nastupa');
+    }
+    if (reactivatingFromCancelled) {
+      assertEventActive(existing.event, 'ponovno aktiviranje otkazanog nastupa');
+    }
 
     if (data.startDateTime || data.endDateTime || reactivatingFromCancelled) {
       const conflicts = await this.detectConflicts({

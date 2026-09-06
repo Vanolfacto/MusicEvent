@@ -3,6 +3,7 @@ import { AppError } from '../middleware/errorHandler.js';
 import type { Prisma, EventStatus, EventType, User } from '@prisma/client';
 import { requireEventOwnershipOrAdmin, requireOrganizerProfile } from '../utils/access.js';
 import { paginate } from '../utils/pagination.js';
+import { notificationService } from './notification.service.js';
 
 const eventInclude = {
   genres: { include: { genre: true } },
@@ -200,7 +201,7 @@ export const eventService = {
       throw new AppError(400, 'Minimalni budžet ne može biti veći od maksimalnog');
     }
 
-    return prisma.$transaction(async (tx) => {
+    const { updated, notifyUserIds } = await prisma.$transaction(async (tx) => {
       if (genreIds) {
         await validateGenreIds(tx, genreIds);
         await tx.eventGenre.deleteMany({ where: { eventId } });
@@ -209,12 +210,54 @@ export const eventService = {
         });
       }
 
-      return tx.event.update({
+      const updatedEvent = await tx.event.update({
         where: { id: eventId },
         data: eventData,
         include: eventInclude,
       });
+
+      let cancelledArtistUserIds: number[] = [];
+      if (eventData.status === 'CANCELLED' && event.status !== 'CANCELLED') {
+        const [cancelledApplications, cancelledPerformances] = await Promise.all([
+          tx.application.findMany({
+            where: { eventId, status: { in: ['PENDING', 'ACCEPTED'] } },
+            include: { artist: { include: { user: true } } },
+          }),
+          tx.performance.findMany({
+            where: { eventId, status: { in: ['SCHEDULED', 'CONFIRMED'] } },
+            include: { artist: { include: { user: true } } },
+          }),
+        ]);
+
+        await tx.application.updateMany({
+          where: { eventId, status: { in: ['PENDING', 'ACCEPTED'] } },
+          data: { status: 'CANCELLED' },
+        });
+        await tx.performance.updateMany({
+          where: { eventId, status: { in: ['SCHEDULED', 'CONFIRMED'] } },
+          data: { status: 'CANCELLED' },
+        });
+
+        const userIds = new Set<number>();
+        cancelledApplications.forEach((a) => userIds.add(a.artist.user.id));
+        cancelledPerformances.forEach((p) => userIds.add(p.artist.user.id));
+        cancelledArtistUserIds = [...userIds];
+      }
+
+      return { updated: updatedEvent, notifyUserIds: cancelledArtistUserIds };
     });
+
+    await Promise.all(
+      notifyUserIds.map((userId) =>
+        notificationService.create(
+          userId,
+          'Događaj otkazan',
+          `Događaj "${updated.title}" je otkazan, a vaše prijave i nastupi za njega su otkazani.`,
+        ),
+      ),
+    );
+
+    return updated;
   },
 
   async remove(user: User, eventId: number) {

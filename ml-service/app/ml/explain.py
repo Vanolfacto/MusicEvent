@@ -23,8 +23,9 @@ def build_explanation(features: dict[str, Any], score: float) -> list[str]:
     else:
         explanations.append("Izvođač je iz drugog grada")
 
-    if features.get("artist_type_match", 0) >= 0.5:
-        explanations.append("Tip izvođača odgovara zahtevu događaja")
+    # Napomena: artist_type_match nije prikazan kao objašnjenje jer pozivalac
+    # (server) unapred filtrira izvođače po tačnom tipu — vrednost je uvek 1.0
+    # za svakog kandidata i time neinformativna za korisnika.
 
     rating = float(features.get("average_rating", 0))
     if rating >= 4.5:
@@ -41,12 +42,14 @@ def build_explanation(features: dict[str, Any], score: float) -> list[str]:
     if features.get("genre_popularity", 0) >= 0.4:
         explanations.append("Žanr je trenutno popularan (na osnovu analize realnih muzičkih podataka)")
 
+    explanations = explanations[:6]
+
     if score >= 0.8:
         explanations.insert(0, "Visoka verovatnoća pogodnosti")
     elif score >= 0.6:
         explanations.insert(0, "Umerena verovatnoća pogodnosti")
 
-    return explanations[:5]
+    return explanations
 
 
 def summarize_explanation(explanations: list[str]) -> str:

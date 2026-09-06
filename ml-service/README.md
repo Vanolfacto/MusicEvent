@@ -28,8 +28,8 @@ API docs: `http://localhost:8000/docs`
 |--------|------|------|
 | GET | `/health` | Health check + modelLoaded |
 | GET | `/model/info` | Verzija i metrike modela |
-| POST | `/predict` | Predikcija za jedan par |
-| POST | `/recommend` | Rangiranje liste izvođača |
+| POST | `/predict` | Predikcija za jedan par (debug endpoint, aplikacija ga ne poziva) |
+| POST | `/recommend` | Rangiranje liste izvođača (koristi ga server) |
 | POST | `/train` | Ponovno treniranje |
 
 ## ML pipeline (Faza 4)

@@ -24,6 +24,12 @@ performancesRouter.get(
   authorize('ARTIST'),
   performanceController.listMine,
 );
+performancesRouter.get(
+  '/mine/organizer',
+  authenticate,
+  authorize('ORGANIZER'),
+  performanceController.listMineAsOrganizer,
+);
 performancesRouter.post(
   '/',
   authenticate,

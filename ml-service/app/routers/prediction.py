@@ -20,6 +20,8 @@ def _model_version() -> str:
 
 @router.post("/predict", response_model=PredictionResponse)
 async def predict(request: PredictRequest):
+    """Standalone debugging endpoint for a single event-artist pair — the app itself
+    only calls /recommend (batch scoring for all candidate artists of an event)."""
     try:
         result = model_service.predict_pair(
             request.event.model_dump(),

@@ -14,6 +14,11 @@ import type { UserRole } from '@prisma/client';
 
 const REFRESH_COOKIE_NAME = 'refreshToken';
 
+// Kratak prozor tolerancije: dva taba koja skoro istovremeno osveže isti (već iskorišćen)
+// refresh token su uobičajena posledica normalne upotrebe, ne krađa tokena. Van ovog
+// prozora, ponovna upotreba se i dalje tretira kao napad i briše sve sesije korisnika.
+const REFRESH_REUSE_GRACE_MS = 10_000;
+
 export const authService = {
   async register(input: RegisterInput) {
     const existing = await userRepository.findByEmail(input.email.toLowerCase());
@@ -108,13 +113,26 @@ export const authService = {
     }
 
     if (stored.usedAt) {
-      // Token je već jednom iskorišćen — ovo je znak da je ukraden (reuse attack).
-      // Prekidamo sve sesije korisnika dok se ne uloguje ponovo.
-      await refreshTokenRepository.deleteByUserId(stored.userId);
-      throw new AppError(
-        401,
-        'Otkrivena je ponovna upotreba refresh tokena. Sve sesije su prekinute, ulogujte se ponovo.',
-      );
+      const msSinceUse = Date.now() - stored.usedAt.getTime();
+      if (msSinceUse > REFRESH_REUSE_GRACE_MS) {
+        // Van kratkog prozora tolerancije — ovo je znak da je token ukraden (reuse attack).
+        // Prekidamo sve sesije korisnika dok se ne uloguje ponovo.
+        await refreshTokenRepository.deleteByUserId(stored.userId);
+        throw new AppError(
+          401,
+          'Otkrivena je ponovna upotreba refresh tokena. Sve sesije su prekinute, ulogujte se ponovo.',
+        );
+      }
+
+      if (stored.user.status !== 'ACTIVE') {
+        throw new AppError(403, 'Nalog nije aktivan');
+      }
+
+      const tokens = await this.issueTokens(stored.user.id, stored.user.email, stored.user.role);
+      return {
+        user: toSafeUser(stored.user),
+        ...tokens,
+      };
     }
 
     if (stored.user.status !== 'ACTIVE') {

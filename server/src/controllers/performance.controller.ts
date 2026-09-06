@@ -24,6 +24,15 @@ export const performanceController = {
     }
   },
 
+  async listMineAsOrganizer(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await performanceService.listMineAsOrganizer(getAuthenticatedUser(req));
+      res.json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await performanceService.create(getAuthenticatedUser(req), req.body);
