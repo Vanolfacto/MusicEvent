@@ -64,10 +64,16 @@ svim pozadinama gde se koristio:
 | bela na primary-600 dugme (podrazumevano) | 5.70:1 | prolazi |
 | bela na primary-500 (staro hover stanje) | 4.23:1 | ne prolazi (granично) |
 | **bela na primary-700 (novo hover stanje)** | **7.10:1** | prolazi |
+| bela na accent-500 (badge nepročitanih notifikacija, staro) | 3.53:1 | ne prolazi |
+| **bela na accent-600 (novo)** | **4.60:1** | prolazi |
+| bela na accent-500 (staro hover na "Moj dashboard" dugmetu) | 3.53:1 | ne prolazi |
+| **bela na accent-700 (novo, dodat u Tailwind paletu)** | **6.04:1** | prolazi |
 
 Ispravke: svih 21 pojavljivanja `text-slate-500` u kodu client aplikacije zamenjeno je sa
-`text-slate-400` (7 fajlova → 11 fajlova, 21 pojavljivanje), a hover stanje `.btn-primary`
-dugmeta promenjeno je sa `primary-500` na `primary-700`.
+`text-slate-400` (11 fajlova), hover stanje `.btn-primary` dugmeta promenjeno je sa
+`primary-500` na `primary-700`, badge nepročitanih notifikacija sa `accent-500` na
+`accent-600`, a hover stanje "Moj dashboard" dugmeta na `accent-700` (nova nijansa dodata
+u `tailwind.config.js` jer paleta nije imala dovoljno tamnu accent nijansu za hover).
 
 ## 6. Mobilna navigacija (WCAG 2.1.1, 1.3.1)
 

@@ -20,6 +20,7 @@ Dokumentacija za projekat „Inteligentni informacioni sistem za organizaciju mu
 | 12 | [deployment.md](./deployment.md) | Docker Compose i lokalno pokretanje |
 | 13 | [limitations-and-future-work.md](./limitations-and-future-work.md) | Ograničenja i budući rad |
 | 14 | [accessibility.md](./accessibility.md) | WCAG pristupačnost — šta je urađeno i izmereno |
+| 15 | [accessibility-testing-scenarios.md](./accessibility-testing-scenarios.md) | Scenariji ručnog testiranja čitačem ekrana (NVDA) |
 
 ## Brzi linkovi
 

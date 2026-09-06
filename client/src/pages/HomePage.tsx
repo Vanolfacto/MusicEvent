@@ -28,7 +28,7 @@ export default function HomePage() {
             Pronađi izvođače
           </Link>
           {isAuthenticated && dashboardLink && (
-            <Link to={dashboardLink} className="btn-primary bg-accent-600 hover:bg-accent-500">
+            <Link to={dashboardLink} className="btn-primary bg-accent-600 hover:bg-accent-700">
               Moj dashboard
             </Link>
           )}
