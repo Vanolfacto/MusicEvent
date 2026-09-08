@@ -109,16 +109,18 @@ rezultat (✅ prošlo / ❌ nije prošlo / napomena) — ta tabela ide direktno 
 
 ---
 
-## Tabela rezultata (popuniti nakon izvođenja)
+## Tabela rezultata
+
+*Izvedeno 8.9.2026, NVDA na Windows-u, Chrome/Edge.*
 
 | # | Scenario | Rezultat | Napomena |
 |---|---|---|---|
-| 1 | Skip link | | |
-| 2 | Login greška | | |
-| 3 | Registracija, uslovna polja | | |
-| 4 | Kreiranje događaja | | |
-| 5 | Notifikacije | | |
-| 6 | Mobilni meni | | |
-| 7 | Admin tabela | | |
-| 8 | Grafikon metrika | | |
-| 9 | Zumiranje 200% | | |
+| 1 | Skip link | ✅ Prošlo | Skip link se najavljuje kao prvi fokusabilan element i ispravno prebacuje fokus na glavni sadržaj |
+| 2 | Login greška | ✅ Prošlo | Greška validacije se automatski najavljuje bez dodatne navigacije |
+| 3 | Registracija, uslovna polja | ✅ Prošlo | Sva polja ispravno najavljena, uslovna polja (umetničko ime/tip izvođača) rade pri promeni uloge |
+| 4 | Kreiranje događaja | ✅ Prošlo | Sva polja imaju ispravno najavljeno ime; dugmad za žanr najavljuje pritisnuto/nije pritisnuto stanje |
+| 5 | Notifikacije | ✅ Prošlo | Broj nepročitanih se najavljuje uz ime dugmeta; Escape zatvara i vraća fokus |
+| 6 | Mobilni meni | ✅ Prošlo | Otvara/zatvara se ispravno, i klikom na link i sa Escape |
+| 7 | Admin tabela | ✅ Prošlo | Nazivi kolona se najavljuju uz svaku ćeliju; status-select najavljuje ime korisnika |
+| 8 | Grafikon metrika | ✅ Prošlo | Skrivena tabela sa podacima se čita umesto SVG grafikona. |
+| 9 | Zumiranje 200% | ✅ Prošlo | Nema horizontalnog skrolovanja, tekst i dugmad ostaju čitljivi i klikabilni |
