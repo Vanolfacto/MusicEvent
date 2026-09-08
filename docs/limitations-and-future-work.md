@@ -29,9 +29,8 @@
 ### Tehnička
 
 - Nema E2E testova (Playwright/Cypress)
-- Auth integracioni testovi zahtevaju pokrenut PostgreSQL
+- Auth integracioni testovi lokalno zahtevaju pokrenut PostgreSQL (u CI-ju rade jer tamo postoji servis kontejner)
 - Frontend bundle > 500 kB (nema code splitting)
-- Nema CI/CD pipeline-a u repou
 
 ## Poznati problemi
 
@@ -52,8 +51,7 @@
 2. **Manuelno NVDA testiranje** (u toku) — izvesti scenarije iz
    `accessibility-testing-scenarios.md` i uneti rezultate u rad
 3. **E2E testovi** — Playwright za kritične tokove (login, kreiranje događaja, preporuke)
-4. **CI/CD** — GitHub Actions sa PostgreSQL servisom
-5. **Code splitting** — lazy loading stranica po ulozi
+4. **Code splitting** — lazy loading stranica po ulozi
 
 ### Srednjoročno
 

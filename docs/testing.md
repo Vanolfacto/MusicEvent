@@ -152,14 +152,8 @@ graph TB
 | Pristupačnost (WCAG) — manuelno čitačem ekrana | ⚠️ Scenariji napisani (`accessibility-testing-scenarios.md`), izvođenje u toku |
 | E2E UI | ❌ Nije implementirano |
 
-## CI preporuka
+## CI
 
-```yaml
-# Primer GitHub Actions koraka
-- run: cd server && npm test
-- run: cd ml-service && pip install -r requirements.txt && pytest
-- run: cd client && npm test
-- run: cd client && npm run build
-```
-
-Za integracione auth testove potreban je PostgreSQL servis u CI okruženju.
+Implementirano u `.github/workflows/ci.yml` — tri paralelna posla (server, ml-service,
+client) na svaki push/PR ka `main`. Server posao pokreće pravi PostgreSQL servis
+kontejner, pa u CI-ju rade i integracioni auth testovi koji se lokalno preskaču bez baze.
