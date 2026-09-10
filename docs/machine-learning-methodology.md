@@ -73,6 +73,14 @@ Trenirani klasifikator radi nad **audio karakteristikama pesama**, dok se prepor
 
 Ovim je istrenirani model **stvarno uključen** u tok preporuka (njegove predikcije direktno utiču na `genre_popularity` faktor), a da se pritom ne tvrdi da model predviđa nešto za šta ne postoje realni podaci za učenje. `event_type_fit` je namerno nisko ponderisan (0.09 od 1.0) i pada na neutralnih 0.5 kad god je lokalni uzorak premali da bi bio pouzdan (v. `scripts/build_event_type_fit.py` za tačne pragove) — iskrena posledica malog uzorka, ne skrivena.
 
+## Tip preporučivačkog sistema (precizna klasifikacija pristupa)
+
+Da bi se izbegla dvosmislenost, sistem se eksplicitno opisuje kao **na sadržaju zasnovan (content-based) preporučivač**, ne kao direktan klasifikator para događaj–izvođač niti kao (hibridni) sistem kolaborativnog filtriranja:
+
+- **Nije direktan klasifikator para događaj–izvođač.** Trenirani klasifikator (Logistic Regression) ne predviđa "verovatnoću uspeha" za par događaj–izvođač — takav label ne postoji ni u jednom javno dostupnom datasetu. Klasifikator rešava strukturno drugačiji, ali stvaran i dobro definisan problem: predikciju popularnosti *pesme* iz njenih audio karakteristika. Njegov izlaz ulazi u preporuke posredno, kroz agregaciju po žanru (v. gore).
+- **Nije kolaborativno filtriranje.** Kolaborativno filtriranje (npr. item-based pristup iz Sarwar et al., 2001) zahteva dovoljnu istoriju interakcija velikog broja korisnika (organizatora) sa izvođačima da bi se otkrili obrasci sličnosti — na novoj platformi takva istorija ne postoji u dovoljnoj meri (klasičan *cold-start* problem). Referenca na taj rad u literaturi služi kao **poređenje pristupa i obrazloženje zašto CF nije izabran**, ne kao opis korišćene metode.
+- **Jeste content-based preporučivač** koji rangira kandidate na osnovu (a) eksplicitnih osobina para događaj–izvođač (podudaranje žanra, budžeta, grada, tipa; ocena; dostupnost; istorijska uspešnost) i (b) dva signala izvedena iz nadgledanog učenja nad realnim podacima — globalna popularnost žanra (Spotify) i lokalna pogodnost žanra za tip događaja (ručno prikupljen lokalni dataset) — kombinovanih u transparentnu ponderisanu formulu (`SCORE_WEIGHTS` u `app/ml/predictor.py`).
+
 ## Ograničenja
 
 - Dataset ne sadrži informacije o stvarnim booking ishodima — model ne predviđa "uspešnost rezervacije" direktno, već doprinosi preporukama kroz realan signal popularnosti žanra

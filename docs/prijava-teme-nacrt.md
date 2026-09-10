@@ -17,12 +17,10 @@ studija za informacione tehnologije u Beogradu sa molbom da mi se, kao studentu 
 strukovnih studija, odobri izrada završnog rada na master strukovnim studijama.
 
 **Naslov:**
-Sistem za preporuku izvođača za muzičke događaje primenom mašinskog učenja
+Veb aplikacija za preporuku izvođača za muzičke događaje primenom mašinskog učenja
 
-*(Napomena: naslov je namerno opšt i ne pominje konkretan izvor podataka — dozvoljava da
-se u toku izrade dataset dalje širi/prilagođava bez potrebe za izmenom naslova. Ako želiš
-precizniji naslov, alternativa: "Inteligentni informacioni sistem za organizaciju muzičkih
-nastupa sa modulom preporuke zasnovanim na mašinskom učenju".)*
+*(Ažurirano nakon mentorove primedbe da prvobitni naslov nije jasno ukazivao da je u
+pitanju veb aplikacija/sistem.)*
 
 **Cilj rada:**
 1. Projektovati i implementirati veb informacioni sistem koji povezuje organizatore
@@ -42,39 +40,45 @@ prilagođavanje interfejsa aplikacije potrebama korisnika sa oštećenjem vida u
 WCAG smernicama pristupačnosti.
 
 **Metode rada:**
-- Analiza literature i uporedna analiza postojećih sličnih aplikacija/servisa za booking
-  muzičkih izvođača.
-- Metode softverskog inženjerstva: definisanje funkcionalnih i nefunkcionalnih zahteva,
-  use-case analiza, iterativni razvoj, projektovanje arhitekture klijent–server sistema sa
-  relacionom bazom podataka i REST API-jem.
-- Metode prikupljanja podataka: strukturirano prikupljanje sa javno dostupnih izvora
-  (booking agencije, festivalski repertoari) i organizacija u dataset.
-- Kvantitativne metode mašinskog učenja: podela na trening/test skup, unakrsna validacija,
-  algoritmi klasifikacije (logistička regresija, random forest), evaluacija metrikama
-  tačnost, preciznost, opoziv i F1-skor.
-- Tehničko testiranje softvera (jedinično i integraciono testiranje).
-- Provera pristupačnosti prema WCAG kriterijumima, uključujući manuelno testiranje čitačem
-  ekrana.
+Analiza literature i uporedna analiza postojećih sličnih aplikacija/servisa za booking
+muzičkih izvođača; metode softverskog inženjerstva (definisanje funkcionalnih i
+nefunkcionalnih zahteva, use-case analiza, iterativni razvoj, projektovanje arhitekture
+klijent–server sistema sa relacionom bazom podataka i REST API-jem); metode prikupljanja
+podataka (strukturirano prikupljanje sa javno dostupnih izvora i organizacija u dataset);
+kvantitativne metode mašinskog učenja — obučava se klasifikacioni model (logistička
+regresija, upoređena sa Random Forest i Gradient Boosting algoritmima, podela na
+trening/test skup, unakrsna validacija, evaluacija metrikama tačnost, preciznost, opoziv i
+F1-skor) koji na osnovu audio karakteristika pesama iz realnog Spotify dataset-a predviđa
+popularnost pesme; predikcije se potom agregiraju po žanrovskom bucket-u (mapiranje
+Spotify mikro-žanrova na 12 žanrova aplikacije), čime se dobija realan signal popularnosti
+po žanru koji se pridružuje svakom izvođaču preko njegovih označenih žanrova. Ovaj signal,
+zajedno sa drugim realnim signalom iz manjeg ručno prikupljenog dataset-a lokalnih
+izvođača (pogodnost žanra za konkretan tip događaja), kombinuje se sa operativnim
+karakteristikama para događaj–izvođač u transparentnu, na sadržaju zasnovanu
+(content-based) ponderisanu formulu rangiranja. Sistem ne koristi kolaborativno
+filtriranje — za to je neophodna istorija interakcija velikog broja korisnika, koja na
+novoj platformi ne postoji (cold-start problem); literatura o kolaborativnom filtriranju
+(Sarwar et al., 2001) koristi se kao osnova za poređenje pristupa i obrazloženje zašto je
+izabran content-based pristup. Tehničko testiranje softvera (jedinično i integraciono
+testiranje); provera pristupačnosti prema WCAG kriterijumima, uključujući manuelno
+testiranje čitačem ekrana.
 
 **Struktura po poglavljima:**
 
 - **Uvod** – Motivacija, problem, ciljevi, predmet i struktura rada.
-- **Pregled srodnih radova** – Analiza postojećih platformi za booking muzičkih izvođača i
-  poređenje njihovih funkcionalnosti sa predloženim rešenjem.
-- **Definisanje zahteva** – Funkcionalni i nefunkcionalni zahtevi sistema i use-case
-  dijagrami, definisani pre izrade aplikacije.
-- **Izvori i prikupljanje podataka** – Opis izvora, postupka prikupljanja i strukturiranja
-  dataset-a korišćenog za obučavanje modela.
-- **Arhitektura sistema** – Tehnologije i komunikacija između klijenta, servera, ML servisa
-  i baze podataka.
-- **Obučavanje i evaluacija modela** – Priprema podataka, obučavanje modela mašinskog
-  učenja i evaluacija relevantnim metrikama.
-- **Implementacija veb aplikacije** – Razvoj aplikacije i integracija obučenog modela u
-  sistem preporuke.
-- **Prilagođavanje pristupačnosti** – Implementacija WCAG smernica radi kompatibilnosti sa
-  čitačima ekrana.
-- **Testiranje** – Tehničko testiranje softvera i scenariji provere prilagođenosti za
-  korisnike sa oštećenjem vida.
+- **Prvo poglavlje — Pregled srodnih radova** – Analiza postojećih platformi za booking
+  muzičkih izvođača i poređenje njihovih funkcionalnosti sa predloženim rešenjem.
+- **Drugo poglavlje — Definisanje zahteva** – Funkcionalni i nefunkcionalni zahtevi
+  sistema i use-case dijagrami, definisani pre izrade aplikacije.
+- **Treće poglavlje — Razvoj i evaluacija modela mašinskog učenja** – Izvori i postupak
+  prikupljanja podataka, priprema podataka, obučavanje modela i evaluacija relevantnim
+  metrikama.
+- **Četvrto poglavlje — Razvoj i implementacija informacionog sistema** – 4.1 Arhitektura
+  sistema (tehnologije i komunikacija klijent–server–ML servis–baza); 4.2 Implementacija
+  veb aplikacije i integracija obučenog modela u sistem preporuke; 4.3 Prilagođavanje
+  pristupačnosti (WCAG smernice, kompatibilnost sa čitačima ekrana).
+- **Peto poglavlje — Testiranje** – Tehničko testiranje softvera i scenariji provere
+  prilagođenosti za korisnike sa oštećenjem vida.
 - **Zaključak** – Rezultati, doprinosi, ograničenja i predlozi za budući rad.
 
 **Literatura** *(proveriti tačnost svake stavke — godine/strane — pre slanja; Wikipedia se
@@ -132,3 +136,10 @@ druge relevantne stručne aktivnosti; ne unositi porodični status ni lične pod
    je projekat "samostalan stručni rad"; vredi ovo razjasniti sa mentorom direktno.
 4. Ovo još nije zvanična predaja — šalje se mentoru na uvid/predlog, prema njegovom
    poslednjem uputstvu.
+5. **Revizija nakon prve runde mentorovih komentara** (10.9.2026): naslov sada eksplicitno
+   pominje "veb aplikacija"; metode rada precizno objašnjavaju da je sistem content-based
+   preporučivač (ne direktan klasifikator para događaj–izvođač, ne kolaborativno
+   filtriranje) i kako se audio-karakteristike pesama preslikavaju na izvođače (kroz
+   agregaciju po žanru, ne pesma-po-pesma); struktura poglavlja spojena sa 8 na 5 (v.
+   `docs/machine-learning-methodology.md`, sekcija "Tip preporučivačkog sistema", za pun
+   tekst objašnjenja koje stoji iza ove formulacije).
