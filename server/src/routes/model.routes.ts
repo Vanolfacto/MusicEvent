@@ -13,3 +13,4 @@ modelRouter.get(
   modelController.trainingRuns,
 );
 modelRouter.post('/train', authenticate, authorize('ADMIN'), modelController.train);
+modelRouter.get('/train/status', authenticate, authorize('ADMIN'), modelController.trainStatus);

@@ -22,11 +22,19 @@ export const modelService = {
     });
   },
 
+  // Kicks off training on the ML service and returns immediately — the ML
+  // service runs the pipeline as a background task, since it takes longer
+  // than any reverse proxy (Render included) will hold an HTTP connection
+  // open. Poll getTrainStatus() for progress/completion.
   async retrain() {
-    const result = await mlClientService.train();
-    const metrics = result.metrics ?? {};
+    return mlClientService.train();
+  },
 
-    if (result.modelVersion && result.algorithm && metrics.accuracy !== undefined) {
+  async getTrainStatus() {
+    const result = await mlClientService.trainStatus();
+
+    if (result.status === 'done' && result.modelVersion && result.algorithm) {
+      const metrics = result.metrics ?? {};
       await prisma.modelTrainingRun.upsert({
         where: { modelVersion: result.modelVersion },
         create: {

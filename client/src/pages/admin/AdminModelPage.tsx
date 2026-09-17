@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import toast from 'react-hot-toast';
 import api, { getErrorMessage } from '../../lib/api';
@@ -8,7 +8,6 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 export default function AdminModelPage() {
   const queryClient = useQueryClient();
-  const [isTraining, setIsTraining] = useState(false);
   const { data: info, isLoading } = useQuery({
     queryKey: ['model', 'info'],
     queryFn: async () => (await api.get('/model/info')).data.data,
@@ -18,17 +17,42 @@ export default function AdminModelPage() {
     queryFn: async () => (await api.get('/model/training-runs')).data.data,
   });
 
-  const retrainMutation = useMutation({
-    mutationFn: async () => {
-      setIsTraining(true);
-      return api.post('/model/train');
-    },
-    onSuccess: () => {
+  // Training runs as a background task on the ML service — a single HTTP
+  // request can't stay open long enough to wait for it (Render, like most
+  // reverse proxies, kills long-idle connections well before the pipeline
+  // finishes), so we kick it off and poll its status instead. Fetched on
+  // every mount (not just after clicking the button) so reopening this page
+  // while a training run is still going resumes polling automatically.
+  const { data: status } = useQuery({
+    queryKey: ['model', 'trainStatus'],
+    queryFn: async () => (await api.get('/model/train/status')).data.data,
+    refetchInterval: (query) => (query.state.data?.status === 'training' ? 8000 : false),
+  });
+
+  const isTraining = status?.status === 'training';
+  const previousStatus = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (!status || status.status === previousStatus.current) return;
+    const wasTraining = previousStatus.current === 'training';
+    previousStatus.current = status.status;
+    if (!wasTraining) return;
+
+    if (status.status === 'done') {
       toast.success('Model je uspešno ponovo obučen');
-      queryClient.invalidateQueries({ queryKey: ['model'] });
+      queryClient.invalidateQueries({ queryKey: ['model', 'info'] });
+      queryClient.invalidateQueries({ queryKey: ['model', 'runs'] });
+    } else if (status.status === 'error') {
+      toast.error(status.error || 'Treniranje nije uspelo');
+    }
+  }, [status, queryClient]);
+
+  const retrainMutation = useMutation({
+    mutationFn: () => api.post('/model/train'),
+    onSuccess: () => {
+      previousStatus.current = 'training';
+      queryClient.invalidateQueries({ queryKey: ['model', 'trainStatus'] });
     },
     onError: (error) => toast.error(getErrorMessage(error)),
-    onSettled: () => setIsTraining(false),
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -58,11 +82,17 @@ export default function AdminModelPage() {
         <button
           type="button"
           onClick={() => retrainMutation.mutate()}
-          disabled={isTraining}
+          disabled={isTraining || retrainMutation.isPending}
           className="btn-primary mt-2"
         >
-          {isTraining ? 'Treniranje u toku (može potrajati)...' : 'Ponovo treniraj model'}
+          {isTraining ? 'Treniranje u toku (nekoliko minuta)...' : 'Ponovo treniraj model'}
         </button>
+        {isTraining && (
+          <p className="text-xs text-slate-400" role="status">
+            Ova strana provera status na svakih 8 sekundi — možeš i da je zatvoriš, trening se
+            nastavlja u pozadini.
+          </p>
+        )}
       </div>
       {metrics.length > 0 && (
         <div className="card h-72">

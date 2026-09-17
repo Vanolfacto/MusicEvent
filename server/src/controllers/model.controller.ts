@@ -37,4 +37,13 @@ export const modelController = {
       next(error);
     }
   },
+
+  async trainStatus(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await modelService.getTrainStatus();
+      res.json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

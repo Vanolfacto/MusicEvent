@@ -97,3 +97,15 @@ class TrainResponse(BaseModel):
     modelVersion: str | None = None
     algorithm: str | None = None
     metrics: dict[str, float] | None = None
+
+
+class TrainStatusResponse(BaseModel):
+    # "idle" | "training" | "done" | "error"
+    status: str
+    message: str | None = None
+    error: str | None = None
+    modelVersion: str | None = None
+    algorithm: str | None = None
+    metrics: dict[str, float] | None = None
+    startedAt: str | None = None
+    finishedAt: str | None = None

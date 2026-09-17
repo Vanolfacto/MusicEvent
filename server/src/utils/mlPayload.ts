@@ -36,6 +36,17 @@ export interface MlRecommendResponse {
   recommendations: MlRecommendationItem[];
 }
 
+export interface MlTrainStatusResponse {
+  status: 'idle' | 'training' | 'done' | 'error';
+  message?: string;
+  error?: string;
+  modelVersion?: string;
+  algorithm?: string;
+  metrics?: Record<string, number>;
+  startedAt?: string;
+  finishedAt?: string;
+}
+
 export interface MlModelInfoResponse {
   modelVersion: string;
   algorithm?: string;

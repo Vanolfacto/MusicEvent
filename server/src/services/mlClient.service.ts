@@ -5,6 +5,7 @@ import type {
   MlEventPayload,
   MlArtistPayload,
   MlModelInfoResponse,
+  MlTrainStatusResponse,
 } from '../utils/mlPayload.js';
 
 const mlRecommendResponseSchema = z.object({
@@ -96,24 +97,22 @@ export const mlClientService = {
   },
 
   train() {
-    return requestWithRetry<{
-      success: boolean;
-      message: string;
-      modelVersion?: string;
-      algorithm?: string;
-      metrics?: Record<string, number>;
-    }>({
+    // Kicks off the pipeline on the ML service and returns immediately
+    // ("training" status) — Render (and most PaaS reverse proxies) kill an
+    // HTTP connection long before the real pipeline finishes, so the
+    // long-running work happens in a background task on the ML service and
+    // the caller polls trainStatus() instead of waiting on this call.
+    return requestWithRetry<MlTrainStatusResponse>({
       method: 'POST',
       path: '/train',
-      // Retraining runs five scripts sequentially (data prep, preprocessing,
-      // training three algorithms, genre-popularity, event-type-fit) — far
-      // longer than the ~10s budget used for a single /recommend call. On
-      // Render's shared compute this has been observed to take well over 5
-      // minutes (downloading + preprocessing 114k rows, then 5-fold CV for
-      // three algorithms), so the budget is generous; retrying a slow,
-      // already-running job would just duplicate the work.
-      timeoutMs: 20 * 60 * 1000,
       retryCount: 0,
+    });
+  },
+
+  trainStatus() {
+    return requestWithRetry<MlTrainStatusResponse>({
+      method: 'GET',
+      path: '/train/status',
     });
   },
 
