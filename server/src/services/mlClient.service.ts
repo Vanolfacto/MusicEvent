@@ -107,9 +107,12 @@ export const mlClientService = {
       path: '/train',
       // Retraining runs five scripts sequentially (data prep, preprocessing,
       // training three algorithms, genre-popularity, event-type-fit) — far
-      // longer than the ~10s budget used for a single /recommend call, and
-      // retrying a slow, already-running job would just duplicate the work.
-      timeoutMs: 5 * 60 * 1000,
+      // longer than the ~10s budget used for a single /recommend call. On
+      // Render's shared compute this has been observed to take well over 5
+      // minutes (downloading + preprocessing 114k rows, then 5-fold CV for
+      // three algorithms), so the budget is generous; retrying a slow,
+      // already-running job would just duplicate the work.
+      timeoutMs: 20 * 60 * 1000,
       retryCount: 0,
     });
   },
