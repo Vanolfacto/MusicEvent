@@ -1,14 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('../lib/prisma.js', () => ({
-  prisma: {
+vi.mock('../lib/prisma.js', () => {
+  const prisma = {
     performance: {
       findUnique: vi.fn(),
       update: vi.fn(),
       findMany: vi.fn().mockResolvedValue([]),
     },
-  },
-}));
+    artistProfile: {
+      update: vi.fn(),
+    },
+    $transaction: vi.fn((callback: (tx: unknown) => unknown) => callback(prisma)),
+  };
+  return { prisma };
+});
 
 vi.mock('../services/notification.service.js', () => ({
   notificationService: {
@@ -137,5 +142,36 @@ describe('performanceService.update — event-active guard', () => {
     });
 
     expect(prisma.performance.update).toHaveBeenCalled();
+  });
+
+  it('increments the artist\'s totalPerformances when a performance is first marked COMPLETED', async () => {
+    const { prisma } = await import('../lib/prisma.js');
+    const { performanceService } = await import('../services/performance.service.js');
+
+    vi.mocked(prisma.performance.findUnique).mockResolvedValue(existingPerformance() as never);
+    vi.mocked(prisma.performance.update).mockResolvedValue(
+      existingPerformance({ status: 'COMPLETED' }) as never,
+    );
+
+    await performanceService.update(fakeUser, 10, { status: 'COMPLETED' });
+
+    expect(prisma.artistProfile.update).toHaveBeenCalledWith({
+      where: { id: 5 },
+      data: { totalPerformances: { increment: 1 } },
+    });
+  });
+
+  it('does not touch totalPerformances for non-COMPLETED status changes', async () => {
+    const { prisma } = await import('../lib/prisma.js');
+    const { performanceService } = await import('../services/performance.service.js');
+
+    vi.mocked(prisma.performance.findUnique).mockResolvedValue(existingPerformance() as never);
+    vi.mocked(prisma.performance.update).mockResolvedValue(
+      existingPerformance({ status: 'CONFIRMED' }) as never,
+    );
+
+    await performanceService.update(fakeUser, 10, { status: 'CONFIRMED' });
+
+    expect(prisma.artistProfile.update).not.toHaveBeenCalled();
   });
 });

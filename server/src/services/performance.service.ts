@@ -172,10 +172,27 @@ export const performanceService = {
       }
     }
 
-    const updated = await prisma.performance.update({
-      where: { id: performanceId },
-      data,
-      include: performanceInclude,
+    const justCompleted = data.status === 'COMPLETED' && existing.status !== 'COMPLETED';
+
+    const updated = await prisma.$transaction(async (tx) => {
+      const performance = await tx.performance.update({
+        where: { id: performanceId },
+        data,
+        include: performanceInclude,
+      });
+
+      // totalPerformances feeds both the public "Nastupa" count and the ML
+      // cold-start check (v. compute_rating_score) — without this, a real
+      // artist who has actually performed would look identical to a
+      // brand-new one to the recommender, forever.
+      if (justCompleted) {
+        await tx.artistProfile.update({
+          where: { id: existing.artistId },
+          data: { totalPerformances: { increment: 1 } },
+        });
+      }
+
+      return performance;
     });
 
     if (data.status && data.status !== existing.status) {
