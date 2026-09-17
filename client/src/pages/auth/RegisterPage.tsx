@@ -8,12 +8,12 @@ import { getErrorMessage } from '../../lib/api';
 
 const schema = z
   .object({
-    firstName: z.string().min(2),
-    lastName: z.string().min(2),
-    email: z.string().email(),
+    firstName: z.string().min(2, 'Minimum 2 karaktera'),
+    lastName: z.string().min(2, 'Minimum 2 karaktera'),
+    email: z.string().email('Unesite ispravan email'),
     password: z
       .string()
-      .min(8)
+      .min(8, 'Minimum 8 karaktera')
       .regex(/[A-Z]/, 'Mora sadržati veliko slovo')
       .regex(/[a-z]/, 'Mora sadržati malo slovo')
       .regex(/[0-9]/, 'Mora sadržati cifru'),

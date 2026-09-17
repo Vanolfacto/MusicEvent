@@ -12,20 +12,20 @@ import { toLocalDateTimeInput } from '../../lib/datetime';
 
 const schema = z
   .object({
-    title: z.string().min(3),
+    title: z.string().min(3, 'Minimum 3 karaktera'),
     description: z.string().optional(),
     eventType: z.enum(['CONCERT', 'FESTIVAL', 'PRIVATE_PARTY', 'WEDDING', 'CORPORATE', 'CLUB_NIGHT', 'OTHER']),
-    city: z.string().min(2),
-    venue: z.string().min(2),
+    city: z.string().min(2, 'Minimum 2 karaktera'),
+    venue: z.string().min(2, 'Minimum 2 karaktera'),
     address: z.string().optional(),
-    startDateTime: z.string().min(1),
-    endDateTime: z.string().min(1),
-    expectedAudience: z.coerce.number().min(1),
-    minimumBudget: z.coerce.number().min(0),
-    maximumBudget: z.coerce.number().min(0),
+    startDateTime: z.string().min(1, 'Datum i vreme početka su obavezni'),
+    endDateTime: z.string().min(1, 'Datum i vreme završetka su obavezni'),
+    expectedAudience: z.coerce.number().min(1, 'Mora biti bar 1'),
+    minimumBudget: z.coerce.number().min(0, 'Ne može biti negativan'),
+    maximumBudget: z.coerce.number().min(0, 'Ne može biti negativan'),
     preferredArtistType: z.enum(['SOLO', 'BAND', 'DJ']),
     status: z.enum(['DRAFT', 'PUBLISHED', 'CANCELLED', 'COMPLETED']),
-    genreIds: z.array(z.coerce.number()).min(1),
+    genreIds: z.array(z.coerce.number()).min(1, 'Izaberite bar jedan žanr'),
   })
   .superRefine((data, ctx) => {
     if (data.startDateTime && data.endDateTime && new Date(data.endDateTime) <= new Date(data.startDateTime)) {

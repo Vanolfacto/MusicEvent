@@ -12,14 +12,14 @@ const urlField = z.string().trim().url('Nevažeći URL').optional().or(z.literal
 
 const schema = z
   .object({
-    stageName: z.string().trim().min(2, 'Minimum 2 karaktera').max(100),
+    stageName: z.string().trim().min(2, 'Minimum 2 karaktera').max(100, 'Maksimum 100 karaktera'),
     biography: z.string().trim().max(3000).optional().or(z.literal('')),
-    city: z.string().trim().min(2, 'Minimum 2 karaktera').max(100),
+    city: z.string().trim().min(2, 'Minimum 2 karaktera').max(100, 'Maksimum 100 karaktera'),
     artistType: z.enum(['SOLO', 'BAND', 'DJ']),
-    memberCount: z.coerce.number().int().min(1).max(50),
-    minimumFee: z.coerce.number().min(0),
-    maximumFee: z.coerce.number().min(0),
-    yearsOfExperience: z.coerce.number().int().min(0).max(80),
+    memberCount: z.coerce.number().int().min(1, 'Minimum 1').max(50, 'Maksimum 50'),
+    minimumFee: z.coerce.number().min(0, 'Ne može biti negativan'),
+    maximumFee: z.coerce.number().min(0, 'Ne može biti negativan'),
+    yearsOfExperience: z.coerce.number().int().min(0, 'Ne može biti negativan').max(80, 'Maksimum 80'),
     spotifyUrl: urlField,
     youtubeUrl: urlField,
     instagramUrl: urlField,

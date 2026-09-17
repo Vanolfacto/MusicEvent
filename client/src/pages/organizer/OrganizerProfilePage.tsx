@@ -9,9 +9,9 @@ import PageHeader from '../../components/PageHeader';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const schema = z.object({
-  organizationName: z.string().trim().min(2, 'Minimum 2 karaktera').max(100),
+  organizationName: z.string().trim().min(2, 'Minimum 2 karaktera').max(100, 'Maksimum 100 karaktera'),
   description: z.string().trim().max(2000).optional().or(z.literal('')),
-  city: z.string().trim().min(2, 'Minimum 2 karaktera').max(100),
+  city: z.string().trim().min(2, 'Minimum 2 karaktera').max(100, 'Maksimum 100 karaktera'),
   phone: z.string().trim().max(30).optional().or(z.literal('')),
 });
 

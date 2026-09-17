@@ -11,8 +11,8 @@ const schema = z
     currentPassword: z.string().min(1, 'Trenutna lozinka je obavezna'),
     newPassword: z
       .string()
-      .min(8)
-      .max(128)
+      .min(8, 'Minimum 8 karaktera')
+      .max(128, 'Maksimum 128 karaktera')
       .regex(/[A-Z]/, 'Lozinka mora sadržati bar jedno veliko slovo')
       .regex(/[a-z]/, 'Lozinka mora sadržati bar jedno malo slovo')
       .regex(/[0-9]/, 'Lozinka mora sadržati bar jednu cifru'),
