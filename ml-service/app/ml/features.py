@@ -42,6 +42,21 @@ def compute_genre_popularity(
     return round(sum(scores) / len(scores), 4)
 
 
+def compute_rating_score(average_rating: float, total_performances: int) -> float:
+    """Rating contribution to the ranking formula, normalized to [0, 1].
+
+    A brand-new artist has no reviews yet, so their `averageRating` sits at
+    the database default of 0 — scoring that literally would unfairly
+    penalize every newcomer relative to an established artist with an
+    average (e.g. 3-star) rating. Instead, an artist with zero recorded
+    performances is treated as neutral (0.6, roughly a 3/5 average) so they
+    remain competitive in recommendations until real reviews accumulate.
+    """
+    if total_performances <= 0:
+        return 0.6
+    return round(min(average_rating / 5, 1.0), 4)
+
+
 def compute_event_type_fit(
     event_type: str,
     genre_names: list[str],

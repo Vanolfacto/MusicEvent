@@ -38,4 +38,5 @@ async def model_info():
         datasetSize=metadata.get("datasetSize"),
         metrics=metadata.get("metrics"),
         notes=metadata.get("notes"),
+        trainingDate=metadata.get("trainingDate"),
     )

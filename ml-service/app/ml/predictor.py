@@ -9,7 +9,12 @@ from sklearn.pipeline import Pipeline
 
 from app.ml.constants import EVENT_TYPE_FIT_FILE, GENRE_POPULARITY_FILE
 from app.ml.explain import build_explanation, summarize_explanation
-from app.ml.features import build_feature_row, compute_event_type_fit, compute_genre_popularity
+from app.ml.features import (
+    build_feature_row,
+    compute_event_type_fit,
+    compute_genre_popularity,
+    compute_rating_score,
+)
 from app.ml.pipeline import load_metadata, load_model
 
 # Weights for the transparent event-artist scoring formula.
@@ -99,13 +104,16 @@ class ModelService:
         features["event_type_fit"] = compute_event_type_fit(
             event.get("eventType", ""), artist.get("genreNames", []), self._event_type_fit
         )
+        features["rating_score"] = compute_rating_score(
+            features["average_rating"], features["total_performances"]
+        )
 
         score = (
             SCORE_WEIGHTS["genre_match"] * features["genre_match"]
             + SCORE_WEIGHTS["budget_match"] * features["budget_match"]
             + SCORE_WEIGHTS["same_city"] * features["same_city"]
             + SCORE_WEIGHTS["artist_type_match"] * features["artist_type_match"]
-            + SCORE_WEIGHTS["average_rating"] * min(features["average_rating"] / 5, 1.0)
+            + SCORE_WEIGHTS["average_rating"] * features["rating_score"]
             + SCORE_WEIGHTS["artist_available"] * features["artist_available"]
             + SCORE_WEIGHTS["past_success_similar_events"]
             * features["past_success_similar_events"]

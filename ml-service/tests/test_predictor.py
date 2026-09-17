@@ -8,7 +8,7 @@ its output.
 
 import pytest
 
-from app.ml.features import compute_event_type_fit, compute_genre_popularity
+from app.ml.features import compute_event_type_fit, compute_genre_popularity, compute_rating_score
 from app.ml.predictor import SCORE_WEIGHTS, ModelService
 
 
@@ -58,6 +58,23 @@ class TestComputeEventTypeFit:
         assert compute_event_type_fit("FESTIVAL", ["Jazz", "Pop"], fit) == 0.5
 
 
+class TestComputeRatingScore:
+    def test_new_artist_with_no_performances_gets_neutral_score(self):
+        # A newly registered artist has averageRating == 0 by DB default, not
+        # because they earned bad reviews — scoring that literally would
+        # unfairly bury every newcomer. They get a neutral value instead.
+        assert compute_rating_score(average_rating=0, total_performances=0) == 0.6
+
+    def test_established_artist_with_genuinely_low_rating_is_not_protected(self):
+        assert compute_rating_score(average_rating=0, total_performances=10) == 0.0
+
+    def test_established_artist_uses_real_rating(self):
+        assert compute_rating_score(average_rating=4.0, total_performances=5) == 0.8
+
+    def test_rating_is_capped_at_one(self):
+        assert compute_rating_score(average_rating=5.0, total_performances=1) == 1.0
+
+
 class TestScorePair:
     def _service(self, genre_popularity=None, event_type_fit=None):
         service = ModelService()
@@ -87,6 +104,7 @@ class TestScorePair:
             "minimumFee": 1500,
             "maximumFee": 2000,
             "averageRating": 5.0,
+            "totalPerformances": 20,
             "isAvailable": True,
             "pastSuccessSimilarEvents": 1.0,
             "genreIds": [1],
@@ -117,6 +135,7 @@ class TestScorePair:
             "minimumFee": 5000,
             "maximumFee": 6000,
             "averageRating": 0,
+            "totalPerformances": 15,  # established artist with genuinely bad reviews, not a newcomer
             "isAvailable": False,
             "pastSuccessSimilarEvents": 0.0,
             "genreIds": [99],
@@ -126,6 +145,36 @@ class TestScorePair:
         _, score = service._score_pair(event, artist)
 
         assert score == pytest.approx(0.0, abs=1e-6)
+
+    def test_new_artist_with_no_performances_is_not_penalized_for_zero_rating(self):
+        service = self._service({"_default": 0.0}, {"CONCERT": {"_default": 0.0}})
+        event = {
+            "eventType": "CONCERT",
+            "city": "Beograd",
+            "expectedAudience": 500,
+            "minimumBudget": 1000,
+            "maximumBudget": 1500,
+            "preferredArtistType": "BAND",
+            "genreIds": [1],
+        }
+        artist = {
+            "artistId": 4,
+            "artistType": "SOLO",
+            "city": "Novi Sad",
+            "minimumFee": 5000,
+            "maximumFee": 6000,
+            "averageRating": 0,  # DB default for a brand-new profile, not an earned rating
+            "totalPerformances": 0,
+            "isAvailable": False,
+            "pastSuccessSimilarEvents": 0.0,
+            "genreIds": [99],
+            "genreNames": [],
+        }
+
+        features, score = service._score_pair(event, artist)
+
+        assert features["rating_score"] == 0.6
+        assert score == pytest.approx(SCORE_WEIGHTS["average_rating"] * 0.6, abs=1e-6)
 
     def test_score_is_a_weighted_sum_matching_score_weights(self):
         service = self._service({"_default": 0.5, "ROCK": 0.8})
@@ -145,6 +194,7 @@ class TestScorePair:
             "minimumFee": 1500,
             "maximumFee": 2000,
             "averageRating": 4.0,
+            "totalPerformances": 8,
             "isAvailable": True,
             "pastSuccessSimilarEvents": 0.6,
             "genreIds": [1],
@@ -157,7 +207,7 @@ class TestScorePair:
             + SCORE_WEIGHTS["budget_match"] * features["budget_match"]
             + SCORE_WEIGHTS["same_city"] * features["same_city"]
             + SCORE_WEIGHTS["artist_type_match"] * features["artist_type_match"]
-            + SCORE_WEIGHTS["average_rating"] * min(features["average_rating"] / 5, 1.0)
+            + SCORE_WEIGHTS["average_rating"] * features["rating_score"]
             + SCORE_WEIGHTS["artist_available"] * features["artist_available"]
             + SCORE_WEIGHTS["past_success_similar_events"]
             * features["past_success_similar_events"]

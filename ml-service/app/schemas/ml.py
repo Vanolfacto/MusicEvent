@@ -88,6 +88,7 @@ class ModelInfoResponse(BaseModel):
     datasetSize: int | None = None
     metrics: dict[str, float] | None = None
     notes: str | None = None
+    trainingDate: str | None = None
 
 
 class TrainResponse(BaseModel):

@@ -28,7 +28,12 @@ def build_explanation(features: dict[str, Any], score: float) -> list[str]:
     # za svakog kandidata i time neinformativna za korisnika.
 
     rating = float(features.get("average_rating", 0))
-    if rating >= 4.5:
+    total_performances = int(features.get("total_performances", 0))
+    if total_performances <= 0:
+        explanations.append(
+            "Nov izvođač bez dosadašnjih nastupa — ocena se tretira kao neutralna dok se ne prikupe recenzije"
+        )
+    elif rating >= 4.5:
         explanations.append("Prosečna ocena je viša od 4.5")
     elif rating >= 4.0:
         explanations.append(f"Prosečna ocena je {rating:.1f}")
