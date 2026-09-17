@@ -129,7 +129,7 @@ python scripts/build_genre_popularity.py  # realan signal popularnosti po žanru
 python scripts/evaluate_model.py
 ```
 
-**Najbolji model:** Logistic Regression v2.0.0 (F1 ≈ 0.793, ROC AUC ≈ 0.857) na realnom, javno dostupnom [Spotify Tracks Dataset-u](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) (114k pesama). Detalji o metodologiji i povezivanju sa preporukama izvođača: [`docs/machine-learning-methodology.md`](./docs/machine-learning-methodology.md).
+**Najbolji model:** Logistic Regression v2.2.0 (F1 ≈ 0.771, ROC AUC ≈ 0.845) na realnom, javno dostupnom [Spotify Tracks Dataset-u](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) (114k pesama, stratifikovan uzorak od 28.694 reda za treniranje zbog memorijskog limita hostinga). Detalji o metodologiji i povezivanju sa preporukama izvođača: [`docs/machine-learning-methodology.md`](./docs/machine-learning-methodology.md).
 
 ## Testovi
 

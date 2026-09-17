@@ -1,6 +1,6 @@
 # Evaluacija modela — Music Event AI
 
-> Rezultati u ovom dokumentu generisani su na **realnom, javno dostupnom** Spotify Tracks Dataset-u (114.000 pesama).
+> Rezultati u ovom dokumentu generisani su na **realnom, javno dostupnom** Spotify Tracks Dataset-u (114.000 pesama, stratifikovan uzorak od 28.694 reda korišćen za treniranje zbog memorijskog limita hostinga — v. `dataset-description.md`).
 
 ## Testirani algoritmi
 
@@ -22,13 +22,13 @@
 
 | Metrika | Vrednost (test skup) |
 |---------|------------------------|
-| Accuracy | 0.7757 |
-| Precision | 0.7901 |
-| Recall | 0.7951 |
-| F1 | 0.7926 |
-| ROC AUC | 0.8574 |
+| Accuracy | 0.7592 |
+| Precision | 0.7646 |
+| Recall | 0.7784 |
+| F1 | 0.7714 |
+| ROC AUC | 0.8454 |
 
-Izabrani model: **Logistic Regression** (v2.0.0), izabran po najvišoj F1 meri na test skupu.
+Izabrani model: **Logistic Regression** (v2.2.0), izabran po najvišoj F1 meri na test skupu.
 
 ## Izbor modela
 

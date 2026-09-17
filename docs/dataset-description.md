@@ -17,6 +17,11 @@ Prag je postavljen na medijan radi balansiranih klasa (dobijeno: 50.01% / 49.99%
 ## Veličina
 
 - 114.000 redova preuzeto, 113.550 nakon čišćenja (drop duplikata/nedostajućih vrednosti)
+- Zbog memorijskog limita hostinga na kome ML servis radi, treniranje nad svih 113.550
+  redova povremeno je dovodilo do OOM prekida procesa. Zato se pred treniranje uzima
+  stratifikovan uzorak (`MAX_TRAINING_ROWS` u `app/ml/constants.py`, trenutno 30.000
+  redova, proporcionalan po klasi), koji se nakon uklanjanja preostalih duplikata svodi
+  na konačnih 28.694 reda korišćenih za treniranje i evaluaciju (52,21% / 47,79%)
 - Podela: 80% trening, 20% test (stratifikovano)
 - Cross-validation: 5-fold stratified
 

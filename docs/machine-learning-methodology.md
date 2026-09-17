@@ -49,15 +49,17 @@ Classifier (izabrani algoritam)
 
 Najbolji model bira se po **F1 score** na test skupu.
 
-### Rezultati (realan Spotify Tracks Dataset, 113.550 pesama, seed=42)
+### Rezultati (realan Spotify Tracks Dataset, stratifikovan uzorak od 28.694 pesme zbog memorijskog limita hostinga, seed=42)
 
 | Algoritam | F1 (test) | ROC AUC (test) |
 |-----------|-----------|-----------------|
-| **Logistic Regression (izabran)** | **0.7926** | **0.8574** |
+| **Logistic Regression (izabran)** | **0.7714** | **0.8454** |
+| Gradient Boosting | 0.7672 | 0.8150 |
+| Random Forest | 0.7476 | 0.7977 |
 
 > Napomena: nakon svakog ponovnog treniranja (`train_model.py`) brojevi se upisuju u `models/model_metadata.json` i `reports/algorithm_comparison.json` — gornja tabela odražava poslednje pokretanje. Za razliku od ranije verzije rada (sintetički podaci), ovde su rezultati bolji jer je predikcija popularnosti pesme iz audio karakteristika stvaran, dobro definisan problem sa jasnim signalom u podacima.
 
-**Izabrani model:** Logistic Regression, verzija 2.0.0
+**Izabrani model:** Logistic Regression, verzija 2.2.0
 
 ## Objašnjavanje preporuka
 

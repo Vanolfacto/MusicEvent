@@ -1,15 +1,15 @@
 {
-  "ROCK": 0.5791,
-  "POP": 0.6238,
-  "JAZZ": 0.4738,
-  "ELECTRONIC": 0.485,
-  "FOLK": 0.5036,
-  "METAL": 0.3602,
-  "HIP HOP": 0.7427,
-  "CLASSICAL": 0.3518,
-  "BLUES": 0.6053,
+  "ROCK": 0.5604,
+  "POP": 0.6312,
+  "JAZZ": 0.3966,
+  "ELECTRONIC": 0.4855,
+  "FOLK": 0.4946,
+  "METAL": 0.3642,
+  "HIP HOP": 0.6664,
+  "CLASSICAL": 0.3253,
+  "BLUES": 0.5687,
   "COUNTRY": 0.2075,
-  "REGGAE": 0.5539,
-  "R&B": 0.67,
-  "_default": 0.516
+  "REGGAE": 0.5331,
+  "R&B": 0.6262,
+  "_default": 0.5085
 }

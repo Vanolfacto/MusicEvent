@@ -35,8 +35,9 @@ standardima pristupačnosti (WCAG) za korisnike sa oštećenjem vida.
 
 Budući da ne postoji javno dostupan skup podataka o stvarnim booking odlukama, ML
 zadatak je definisan nad dva realna, javno dostupna i ručno prikupljena izvora: Spotify
-Tracks Dataset-om (114.000 pesama), nad kojim je obučen i evaluiran klasifikacioni model
-(logistička regresija, F1=0,7926, ROC AUC=0,8574) za predikciju popularnosti pesme iz
+Tracks Dataset-om (114.000 pesama, stratifikovan uzorak od 28.694 reda zbog memorijskih
+ograničenja hostinga), nad kojim je obučen i evaluiran klasifikacioni model
+(logistička regresija, F1=0,7714, ROC AUC=0,8454) za predikciju popularnosti pesme iz
 audio karakteristika, i ručno prikupljenim datasetom od 61 realnog lokalnog izvođača, iz
 kog je izveden signal pogodnosti žanra za konkretan tip događaja (Random Forest, macro
 F1=0,594 naspram baseline-a 0,410). Oba signala kombinovana su sa operativnim
@@ -71,8 +72,9 @@ impairments.
 
 Since no publicly available dataset of actual booking decisions exists, the ML task was
 defined over two real, publicly available and manually collected data sources: the
-Spotify Tracks Dataset (114,000 tracks), over which a classification model (logistic
-regression, F1=0.7926, ROC AUC=0.8574) was trained and evaluated to predict track
+Spotify Tracks Dataset (114,000 tracks, downsampled to a stratified 28,694-row subset
+due to hosting memory constraints), over which a classification model (logistic
+regression, F1=0.7714, ROC AUC=0.8454) was trained and evaluated to predict track
 popularity from audio features, and a manually collected dataset of 61 real local
 performers, from which a signal of genre suitability for a specific event type was
 derived (Random Forest, macro F1=0.594 versus a baseline of 0.410). Both signals are

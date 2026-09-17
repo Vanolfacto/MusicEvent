@@ -33,7 +33,13 @@ zadatak: predikcija da li je pesma **popularna** (`popularity` iznad medijana na
 njenih audio karakteristika (ples-ljivost, energija, glasnoća, akustičnost,
 instrumentalnost, valenca, tempo i drugo) i žanra. Nakon čišćenja podataka (uklanjanje
 duplikata i nedostajućih vrednosti) skup je sveden na 113.550 redova, sa balansiranim
-klasama (50,01% naspram 49,99%) zahvaljujući podeli po medijani.
+klasama (50,01% naspram 49,99%) zahvaljujući podeli po medijani. Instanca ML servisa se
+u produkcionom okruženju izvršava na hostingu sa ograničenom memorijom, na kome je
+treniranje nad celim skupom od 113.550 redova povremeno dovodilo do prekida procesa zbog
+prekoračenja memorijskog limita. Zbog toga se pred samo treniranje iz ovog skupa uzima
+stratifikovan uzorak od 30.000 redova (odnos klasa 0/1 očuvan proporcionalno po žanru),
+koji se nakon uklanjanja preostalih duplikata svodi na konačnih 28.694 reda korišćenih za
+treniranje i evaluaciju (52,21% naspram 47,79%).
 
 ### 3.1.2 Lokalni dataset realnih izvođača
 
@@ -76,26 +82,26 @@ pod identičnim uslovima — ista podela trening/test skupa, ista petostruka una
 validacija, isti skup karakteristika. Tabela 5 prikazuje rezultate sva tri algoritma na
 test skupu poslednjeg treniranja.
 
-*Tabela 5. Rezultati poređenja algoritama na Spotify Tracks Dataset-u, test skup (izvor:
-sopstveno istraživanje)*
+*Tabela 5. Rezultati poređenja algoritama na Spotify Tracks Dataset-u (stratifikovan
+uzorak od 28.694 reda), test skup (izvor: sopstveno istraživanje)*
 
 | Metrika | Logistička regresija | Random Forest | Gradient Boosting |
 |---|---|---|---|
-| Accuracy | **0,7757** | 0,7295 | 0,7454 |
-| Precision | **0,7901** | 0,7072 | 0,7097 |
-| Recall | 0,7951 | 0,8505 | **0,8928** |
-| F1-skor | **0,7926** | 0,7722 | 0,7908 |
-| ROC AUC | **0,8574** | 0,8095 | 0,8279 |
+| Accuracy | **0,7592** | 0,7045 | 0,7231 |
+| Precision | **0,7646** | 0,6745 | 0,6837 |
+| Recall | 0,7784 | 0,8385 | **0,8738** |
+| F1-skor | **0,7714** | 0,7476 | 0,7672 |
+| ROC AUC | **0,8454** | 0,7977 | 0,8150 |
 
 Finalni model biran je prema najvišoj F1 meri na test skupu, uz ROC AUC kao sekundarni
-kriterijum. Logistička regresija postiže najviši F1 (0,7926) i najviši ROC AUC (0,8574)
-od sva tri algoritma, iako Gradient Boosting ima nešto viši recall (0,8928 naspram
-0,7951) — što znači da Gradient Boosting ređe promaši stvarno popularnu pesmu, ali na
-račun preciznosti (0,7097 naspram 0,7901): češće pogrešno označava nepopularnu pesmu
+kriterijum. Logistička regresija postiže najviši F1 (0,7714) i najviši ROC AUC (0,8454)
+od sva tri algoritma, iako Gradient Boosting ima nešto viši recall (0,8738 naspram
+0,7784) — što znači da Gradient Boosting ređe promaši stvarno popularnu pesmu, ali na
+račun preciznosti (0,6837 naspram 0,7646): češće pogrešno označava nepopularnu pesmu
 kao popularnu. Pošto F1-skor (harmonijska sredina preciznosti i opoziva) predstavlja
 ravnotežu između te dve greške i pritom favorizuje logističku regresiju, a razlika u
 ROC AUC-u dodatno ide u njenu korist, izabrana je **logistička regresija** kao konačan
-model (verzija 2.0.0). Dodatna prednost logističke regresije je i jednostavnost — kao
+model (verzija 2.2.0). Dodatna prednost logističke regresije je i jednostavnost — kao
 linearni model, njeni koeficijenti su direktno tumačivi, što je u skladu sa opštim
 ciljem rada da preporučivački mehanizam ostane transparentan i objašnjiv, a ne samo
 tačan.
@@ -164,9 +170,13 @@ iskustva" od "ima iskustvo, čeka se ocena".
 treniranje (svih pet koraka pipeline-a: priprema podataka, predobrada, treniranje i
 poređenje sva tri algoritma, i ponovno izračunavanje oba signala izvedena iz podataka)
 pokreće se ručno, putem `/train` rute ML servisa koju poziva administrator iz
-administratorskog panela aplikacije (v. poglavlje 4). Svako pokretanje ažurira i
-prikazuje datum poslednjeg treniranja i postignute metrike, tako da je uvek jasno koliko
-je model "svež" u odnosu na trenutno stanje podataka.
+administratorskog panela aplikacije (v. poglavlje 4). Treniranje traje duže od
+uobičajenog trajanja jednog HTTP zahteva, pa je implementirano kao pozadinski zadatak:
+`/train` ga samo pokreće i odmah vraća odgovor, dok administratorski panel status
+provera periodičnim postavljanjem upita ka `/train/status` sve dok treniranje ne završi
+(ili ne prijavi grešku). Svako pokretanje ažurira i prikazuje datum poslednjeg
+treniranja i postignute metrike, tako da je uvek jasno koliko je model "svež" u odnosu
+na trenutno stanje podataka.
 
 ## 3.5 Evaluacija lokalnog signala pogodnosti žanra za tip događaja
 

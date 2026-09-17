@@ -15,8 +15,16 @@ MODEL_METADATA_FILE = MODELS_DIR / "model_metadata.json"
 GENRE_POPULARITY_FILE = MODELS_DIR / "genre_popularity.json"
 EVENT_TYPE_FIT_FILE = MODELS_DIR / "event_type_fit.json"
 LOCAL_ARTISTS_RESEARCH_FILE = BASE_DIR / "research" / "local_artists_v2.csv"
-MODEL_VERSION = "2.1.0"
+MODEL_VERSION = "2.2.0"
 RANDOM_SEED = 42
+
+# The cleaned Spotify dataset has ~113,550 rows. Training on the full set
+# (especially one-hot encoding the genre column) uses more memory than
+# Render's ml-service instance has available and gets the container
+# OOM-killed mid-run. A stratified sample keeps the class balance while
+# capping memory use; None disables sampling (used for local experiments
+# where memory isn't a constraint).
+MAX_TRAINING_ROWS: int | None = 30000
 
 # Real dataset: https://huggingface.co/datasets/maharshipandya/spotify-tracks-dataset
 # (public mirror of the Kaggle "Spotify Tracks Dataset" by maharshipandya)
