@@ -39,8 +39,9 @@
 ### ML preporuke
 
 - Generisanje preporuka za događaj (organizator)
-- Rangiranje izvođača po skoru modela
-- Objašnjenje preporuka (rule-based + feature importance)
+- Rangiranje izvođača po skoru transparentne ponderisane formule (v.
+  `machine-learning-methodology.md`, sekcija "Tip preporučivačkog sistema")
+- Rule-based objašnjenje preporuka (lista razloga po izvođaču)
 - Čuvanje istorije preporuka u bazi
 
 ### Administracija
@@ -71,8 +72,8 @@
 ## Ograničenja prototipa
 
 - ML model je treniran na realnom, javno dostupnom Spotify Tracks Dataset-u (v.
-  `dataset-description.md`); paralelno je istražen i manji, ručno prikupljen dataset
-  realnih lokalnih izvođača (v. `../ml-service/research/`), još uvek van produkcionog
-  sistema, u fazi validacije rezultata
+  `dataset-description.md`); dodatno je integrisan i signal izveden iz manjeg, ručno
+  prikupljenog dataset-a realnih lokalnih izvođača (v. `../ml-service/research/` i
+  `machine-learning-methodology.md`)
 - Nema produkcijskog HTTPS-a ni email verifikacije
 - Notifikacije su in-app (bez push/email servisa)

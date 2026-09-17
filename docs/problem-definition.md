@@ -26,11 +26,21 @@ Razviti informacioni sistem koji:
 
 ## Istraživačko pitanje
 
-> Kako model mašinskog učenja može da proceni pogodnost para događaj–izvođač i da poboljša proces selekcije u odnosu na ručno pretraživanje?
+> Kako se realni, javno dostupni i ručno prikupljeni podaci o muzičkim izvođačima i događajima mogu iskoristiti za izgradnju transparentnog, na sadržaju zasnovanog (content-based) sistema preporuke izvođača, koji objektivizuje i ubrzava proces selekcije u odnosu na ručno pretraživanje?
+
+*(Napomena: pitanje je preformulisano nakon mentorove primedbe da formulacija ne sme
+ostavljati utisak da model direktno klasifikuje par događaj–izvođač — takav label ne
+postoji ni u jednom javno dostupnom datasetu. V. `machine-learning-methodology.md`,
+sekcija "Tip preporučivačkog sistema".)*
 
 ## Hipoteza
 
-Klasifikacioni model nad strukturiranim karakteristikama (žanr, budžet, grad, ocena, iskustvo) može sa prihvatljivom tačnošću predvideti pogodnost izvođača za dati događaj, čime se ubrzava i objektivizuje proces preporuke.
+Kombinovanje operativnih karakteristika para događaj–izvođač (žanr, budžet, grad, tip,
+ocena, dostupnost, istorija) sa signalima izvedenim iz nadgledanog učenja nad realnim
+podacima (globalna popularnost žanra iz klasifikacionog modela treniranog na Spotify
+audio karakteristikama; lokalna pogodnost žanra za tip događaja iz ručno prikupljenog
+lokalnog dataset-a) u transparentnu ponderisanu formulu daje smislenije i objektivnije
+rangiranje izvođača od ručnog, subjektivnog pretraživanja.
 
 ## Ograničenje doma
 

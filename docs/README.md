@@ -22,6 +22,16 @@ Dokumentacija za projekat „Inteligentni informacioni sistem za organizaciju mu
 | 13 | [limitations-and-future-work.md](./limitations-and-future-work.md) | Ograničenja i budući rad |
 | 14 | [accessibility.md](./accessibility.md) | WCAG pristupačnost — šta je urađeno i izmereno |
 | 15 | [accessibility-testing-scenarios.md](./accessibility-testing-scenarios.md) | Scenariji ručnog testiranja čitačem ekrana (NVDA) |
+| 16 | [thesis-uvod.md](./thesis-uvod.md) | Nacrt teksta poglavlja "Uvod" za sam rad |
+| 17 | [thesis-poglavlje-1-pregled-srodnih-radova.md](./thesis-poglavlje-1-pregled-srodnih-radova.md) | Nacrt teksta Prvog poglavlja |
+| 18 | [thesis-poglavlje-2-definisanje-zahteva.md](./thesis-poglavlje-2-definisanje-zahteva.md) | Nacrt teksta Drugog poglavlja |
+| 19 | [thesis-poglavlje-3-model.md](./thesis-poglavlje-3-model.md) | Nacrt teksta Trećeg poglavlja (ML) |
+| 20 | [thesis-poglavlje-4-implementacija.md](./thesis-poglavlje-4-implementacija.md) | Nacrt teksta Četvrtog poglavlja |
+| 21 | [thesis-poglavlje-5-testiranje.md](./thesis-poglavlje-5-testiranje.md) | Nacrt teksta Petog poglavlja |
+| 22 | [thesis-zakljucak.md](./thesis-zakljucak.md) | Nacrt teksta Zaključka |
+| 23 | [thesis-literatura.md](./thesis-literatura.md) | Finalna, konsolidovana literatura (21 stavka, IEEE stil) |
+| 24 | [thesis-prilozi.md](./thesis-prilozi.md) | Popis slika, popis tabela, popis skraćenica |
+| 25 | [thesis-front-matter.md](./thesis-front-matter.md) | Sažetak (SR/EN) i Izjava o akademskoj čestitosti |
 
 ## Brzi linkovi
 

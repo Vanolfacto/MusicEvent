@@ -68,9 +68,9 @@ sequenceDiagram
 ## ML integracija
 
 1. `recommendation.service.ts` učitava događaj i listu izvođača iz baze (**samo tip koji odgovara `preferredArtistType`**)
-2. `mlPayload.ts` mapira entitete u feature vektor
+2. `mlPayload.ts` mapira entitete (uključujući imena žanrova izvođača, `genreNames`) u feature vektor
 3. `mlClient.service.ts` poziva FastAPI sa retry i timeout logikom
-4. **Post-processing na serveru:** model daje žanru relativno nizak feature importance (~9%, v. `model_metadata.json`), pa se ML skor pre čuvanja koriguje faktorom zasnovanim na stvarnom podudaranju žanra (`score × (0.5 + 0.5 × genreMatch)`), tako da izvođači bez ijednog zajedničkog žanra ne mogu nadmašiti one koji se poklapaju samo zahvaljujući drugim karakteristikama
+4. ML servis vraća već konačan, transparentno ponderisan skor (v. `machine-learning-methodology.md`, `SCORE_WEIGHTS`) — server ga **ne koriguje naknadno**; `genreMatch` se posebno računa i čuva samo radi prikaza (npr. baner "nijedna preporuka se ne poklapa po žanru"), ne radi množenja skora
 5. Rezultati se čuvaju u tabeli `Recommendation`
 
 ## Frontend arhitektura
