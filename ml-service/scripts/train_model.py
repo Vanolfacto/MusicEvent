@@ -63,7 +63,11 @@ def evaluate_algorithm(name: str, x_train, x_test, y_train, y_test):
         y_train,
         cv=cv,
         scoring=SCORING,
-        n_jobs=-1,
+        # n_jobs=1, not -1: each parallel fold would fork a full copy of
+        # the training data into its own process. On Render's memory-
+        # limited instance that is what triggers an OOM restart mid-run
+        # (see the same note in app/ml/pipeline.py for RandomForest).
+        n_jobs=1,
     )
 
     cv_metrics = {

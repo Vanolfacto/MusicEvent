@@ -61,7 +61,12 @@ def build_model_pipeline(algorithm: str) -> Pipeline:
             max_depth=12,
             class_weight="balanced_subsample",
             random_state=RANDOM_SEED,
-            n_jobs=-1,
+            # n_jobs=1, not -1: parallel tree-building spawns one worker
+            # process per CPU, each holding its own copy of the training
+            # data — on a memory-constrained host (e.g. Render's smaller
+            # instances) that multiplication is what exceeds the memory
+            # limit and gets the instance OOM-killed mid-training.
+            n_jobs=1,
         )
     elif algorithm == "gradient_boosting":
         classifier = GradientBoostingClassifier(random_state=RANDOM_SEED)
