@@ -23,6 +23,7 @@ const schema = z
     spotifyUrl: urlField,
     youtubeUrl: urlField,
     instagramUrl: urlField,
+    photoUrl: urlField,
     isAvailable: z.boolean(),
     genreIds: z.array(z.coerce.number()),
   })
@@ -66,6 +67,7 @@ export default function ArtistProfilePage() {
           spotifyUrl: data.spotifyUrl || '',
           youtubeUrl: data.youtubeUrl || '',
           instagramUrl: data.instagramUrl || '',
+          photoUrl: data.photoUrl || '',
           isAvailable: data.isAvailable,
           genreIds: data.genres?.map((g) => g.genre.id) || [],
         }
@@ -74,6 +76,7 @@ export default function ArtistProfilePage() {
 
   const selectedGenres = watch('genreIds') || [];
   const isAvailable = watch('isAvailable');
+  const photoUrl = watch('photoUrl');
 
   const toggleGenre = (genreId: number) => {
     const current = selectedGenres;
@@ -100,6 +103,7 @@ export default function ArtistProfilePage() {
       spotifyUrl: form.spotifyUrl || null,
       youtubeUrl: form.youtubeUrl || null,
       instagramUrl: form.instagramUrl || null,
+      photoUrl: form.photoUrl || null,
     });
   };
 
@@ -131,6 +135,30 @@ export default function ArtistProfilePage() {
           {errors.stageName && (
             <p id="artist-stageName-error" role="alert" className="mt-1 text-sm text-red-400">{errors.stageName.message}</p>
           )}
+        </div>
+        <div>
+          <label htmlFor="artist-photoUrl" className="mb-1 block text-sm text-slate-300">Link ka fotografiji</label>
+          <div className="flex items-center gap-3">
+            {photoUrl && !errors.photoUrl && (
+              <img
+                src={photoUrl}
+                alt=""
+                className="h-14 w-14 rounded-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            )}
+            <input
+              {...register('photoUrl')}
+              id="artist-photoUrl"
+              placeholder="https://..."
+              aria-invalid={errors.photoUrl ? true : undefined}
+              aria-describedby={errors.photoUrl ? 'artist-photoUrl-error' : undefined}
+              className="input flex-1"
+            />
+          </div>
+          {errors.photoUrl && <p id="artist-photoUrl-error" role="alert" className="mt-1 text-sm text-red-400">{errors.photoUrl.message}</p>}
         </div>
         <div>
           <label htmlFor="artist-biography" className="mb-1 block text-sm text-slate-300">Biografija</label>

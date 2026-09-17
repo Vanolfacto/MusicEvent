@@ -28,4 +28,13 @@ export const modelController = {
       next(error);
     }
   },
+
+  async train(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await modelService.retrain();
+      res.json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

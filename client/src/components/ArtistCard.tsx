@@ -18,13 +18,25 @@ export function ArtistCard({
   return (
     <div className="card">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <Link to={`/artists/${artist.id}`} className="text-lg font-semibold text-white hover:text-primary-400">
-            {artist.stageName}
-          </Link>
-          <p className="mt-1 text-sm text-slate-400">
-            {artist.city} · {artist.artistType}
-          </p>
+        <div className="flex items-center gap-3">
+          {artist.photoUrl && (
+            <img
+              src={artist.photoUrl}
+              alt=""
+              className="h-12 w-12 shrink-0 rounded-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          )}
+          <div>
+            <Link to={`/artists/${artist.id}`} className="text-lg font-semibold text-white hover:text-primary-400">
+              {artist.stageName}
+            </Link>
+            <p className="mt-1 text-sm text-slate-400">
+              {artist.city} · {artist.artistType}
+            </p>
+          </div>
         </div>
         {score !== undefined && (
           <div className="text-right">

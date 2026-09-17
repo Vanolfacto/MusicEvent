@@ -123,6 +123,7 @@ model ArtistProfile {
   spotifyUrl         String?
   youtubeUrl         String?
   instagramUrl       String?
+  photoUrl           String?
   isAvailable        Boolean       @default(true)
   genres             ArtistGenre[]
   applications       Application[]

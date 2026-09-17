@@ -164,6 +164,7 @@ async function main() {
         spotifyUrl: rand() > 0.3 ? `https://open.spotify.com/artist/demo${i}` : null,
         youtubeUrl: rand() > 0.4 ? `https://youtube.com/@artist${i}` : null,
         instagramUrl: rand() > 0.2 ? `https://instagram.com/artist${i}` : null,
+        photoUrl: `https://i.pravatar.cc/300?img=${(i % 70) + 1}`,
         isAvailable: rand() > 0.15,
       },
     });

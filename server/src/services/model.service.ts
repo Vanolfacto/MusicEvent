@@ -21,4 +21,38 @@ export const modelService = {
       orderBy: { trainingDate: 'desc' },
     });
   },
+
+  async retrain() {
+    const result = await mlClientService.train();
+    const metrics = result.metrics ?? {};
+
+    if (result.modelVersion && result.algorithm && metrics.accuracy !== undefined) {
+      await prisma.modelTrainingRun.upsert({
+        where: { modelVersion: result.modelVersion },
+        create: {
+          modelVersion: result.modelVersion,
+          algorithm: result.algorithm,
+          datasetSize: 0,
+          accuracy: metrics.accuracy ?? 0,
+          precision: metrics.precision ?? 0,
+          recall: metrics.recall ?? 0,
+          f1Score: metrics.f1 ?? 0,
+          rocAuc: metrics.roc_auc ?? null,
+          notes: 'Ručno pokrenuto ponovno treniranje iz admin panela.',
+        },
+        update: {
+          algorithm: result.algorithm,
+          trainingDate: new Date(),
+          accuracy: metrics.accuracy ?? 0,
+          precision: metrics.precision ?? 0,
+          recall: metrics.recall ?? 0,
+          f1Score: metrics.f1 ?? 0,
+          rocAuc: metrics.roc_auc ?? null,
+          notes: 'Ručno pokrenuto ponovno treniranje iz admin panela.',
+        },
+      });
+    }
+
+    return result;
+  },
 };

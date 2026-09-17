@@ -36,6 +36,7 @@ export const artistUpdateSchema = z.object({
   spotifyUrl: z.string().url().optional().nullable().or(z.literal('')),
   youtubeUrl: z.string().url().optional().nullable().or(z.literal('')),
   instagramUrl: z.string().url().optional().nullable().or(z.literal('')),
+  photoUrl: z.string().url().optional().nullable().or(z.literal('')),
   isAvailable: z.boolean().optional(),
   genreIds: z.array(z.coerce.number().int().positive()).optional(),
 }).superRefine((data, ctx) => {

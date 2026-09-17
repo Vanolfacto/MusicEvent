@@ -28,7 +28,7 @@ describe('LoginPage', () => {
     );
 
     expect(screen.getByRole('heading', { name: 'Prijava' })).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('admin@demo.local')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('ime@primer.com')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Prijavi se' })).toBeInTheDocument();
   });
 });

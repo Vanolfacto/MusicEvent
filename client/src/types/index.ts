@@ -35,9 +35,11 @@ export interface ArtistProfile {
   spotifyUrl?: string | null;
   youtubeUrl?: string | null;
   instagramUrl?: string | null;
+  photoUrl?: string | null;
   isAvailable: boolean;
   genres?: { genre: Genre }[];
   user?: Partial<User>;
+  performances?: { startDateTime: string; endDateTime: string; event: { city: string } }[];
 }
 
 export interface OrganizerProfile {

@@ -1,10 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import api from '../../lib/api';
+import toast from 'react-hot-toast';
+import api, { getErrorMessage } from '../../lib/api';
 import PageHeader from '../../components/PageHeader';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 export default function AdminModelPage() {
+  const queryClient = useQueryClient();
+  const [isTraining, setIsTraining] = useState(false);
   const { data: info, isLoading } = useQuery({
     queryKey: ['model', 'info'],
     queryFn: async () => (await api.get('/model/info')).data.data,
@@ -14,7 +18,24 @@ export default function AdminModelPage() {
     queryFn: async () => (await api.get('/model/training-runs')).data.data,
   });
 
+  const retrainMutation = useMutation({
+    mutationFn: async () => {
+      setIsTraining(true);
+      return api.post('/model/train');
+    },
+    onSuccess: () => {
+      toast.success('Model je uspešno ponovo obučen');
+      queryClient.invalidateQueries({ queryKey: ['model'] });
+    },
+    onError: (error) => toast.error(getErrorMessage(error)),
+    onSettled: () => setIsTraining(false),
+  });
+
   if (isLoading) return <LoadingSpinner />;
+
+  const trainingDate = info?.trainingDate
+    ? new Date(info.trainingDate).toLocaleString('sr-Latn-RS')
+    : null;
 
   const metrics = info?.metrics
     ? Object.entries(info.metrics as Record<string, number>).map(([name, value]) => ({
@@ -29,7 +50,19 @@ export default function AdminModelPage() {
       <div className="card mb-6 space-y-2 text-sm">
         <p><span className="text-slate-400">Verzija:</span> <span className="text-white">{info?.modelVersion}</span></p>
         <p><span className="text-slate-400">Algoritam:</span> <span className="text-white">{info?.algorithm}</span></p>
+        <p>
+          <span className="text-slate-400">Poslednje treniranje:</span>{' '}
+          <span className="text-white">{trainingDate || 'nepoznato'}</span>
+        </p>
         <p className="text-slate-400">{info?.notes}</p>
+        <button
+          type="button"
+          onClick={() => retrainMutation.mutate()}
+          disabled={isTraining}
+          className="btn-primary mt-2"
+        >
+          {isTraining ? 'Treniranje u toku (može potrajati)...' : 'Ponovo treniraj model'}
+        </button>
       </div>
       {metrics.length > 0 && (
         <div className="card h-72">

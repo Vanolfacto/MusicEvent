@@ -43,6 +43,7 @@ export interface MlModelInfoResponse {
   datasetSize?: number;
   metrics?: Record<string, number>;
   notes?: string;
+  trainingDate?: string;
 }
 
 export function buildMlEventPayload(event: {

@@ -12,3 +12,4 @@ modelRouter.get(
   authorize('ADMIN'),
   modelController.trainingRuns,
 );
+modelRouter.post('/train', authenticate, authorize('ADMIN'), modelController.train);

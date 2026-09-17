@@ -69,6 +69,18 @@ export const artistService = {
             organizer: { select: { organizationName: true } },
           },
         },
+        performances: {
+          where: {
+            status: { in: ['SCHEDULED', 'CONFIRMED'] },
+            startDateTime: { gte: new Date() },
+          },
+          orderBy: { startDateTime: 'asc' },
+          select: {
+            startDateTime: true,
+            endDateTime: true,
+            event: { select: { city: true } },
+          },
+        },
       },
     });
     if (!artist) throw new AppError(404, 'Izvođač nije pronađen');
@@ -97,6 +109,7 @@ export const artistService = {
       spotifyUrl?: string | null;
       youtubeUrl?: string | null;
       instagramUrl?: string | null;
+      photoUrl?: string | null;
       isAvailable?: boolean;
       genreIds?: number[];
     },

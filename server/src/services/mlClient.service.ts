@@ -22,6 +22,8 @@ interface RequestOptions {
   method: 'GET' | 'POST';
   path: string;
   body?: unknown;
+  timeoutMs?: number;
+  retryCount?: number;
 }
 
 async function sleep(ms: number) {
@@ -30,11 +32,13 @@ async function sleep(ms: number) {
 
 async function requestWithRetry<T>(options: RequestOptions): Promise<T> {
   const url = `${env.ML_SERVICE_URL}${options.path}`;
+  const timeoutMs = options.timeoutMs ?? env.ML_SERVICE_TIMEOUT_MS;
+  const retryCount = options.retryCount ?? env.ML_SERVICE_RETRY_COUNT;
   let lastError: Error | null = null;
 
-  for (let attempt = 0; attempt <= env.ML_SERVICE_RETRY_COUNT; attempt++) {
+  for (let attempt = 0; attempt <= retryCount; attempt++) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), env.ML_SERVICE_TIMEOUT_MS);
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
       const response = await fetch(url, {
@@ -59,7 +63,7 @@ async function requestWithRetry<T>(options: RequestOptions): Promise<T> {
       clearTimeout(timeout);
       lastError = error as Error;
 
-      if (attempt < env.ML_SERVICE_RETRY_COUNT) {
+      if (attempt < retryCount) {
         await sleep(300 * (attempt + 1));
         continue;
       }
@@ -88,6 +92,25 @@ export const mlClientService = {
     return requestWithRetry<MlModelInfoResponse>({
       method: 'GET',
       path: '/model/info',
+    });
+  },
+
+  train() {
+    return requestWithRetry<{
+      success: boolean;
+      message: string;
+      modelVersion?: string;
+      algorithm?: string;
+      metrics?: Record<string, number>;
+    }>({
+      method: 'POST',
+      path: '/train',
+      // Retraining runs five scripts sequentially (data prep, preprocessing,
+      // training three algorithms, genre-popularity, event-type-fit) — far
+      // longer than the ~10s budget used for a single /recommend call, and
+      // retrying a slow, already-running job would just duplicate the work.
+      timeoutMs: 5 * 60 * 1000,
+      retryCount: 0,
     });
   },
 
